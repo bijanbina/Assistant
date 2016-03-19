@@ -3,9 +3,9 @@ For a time being is a translator assist in my daily reading course.
 It exercise google translate as it core side to scan selected text, ask for better translation and if it's not already in the "phrase book" prompt for append in database.
 
 
-Acknowledgment
+Acknowledgments
 --------------
-In this project I use following library which are realy helpful and can't achieve this conquer without their afford
+Assistant used following library, I just want to mention that this conquer can't achieved without their affords.
 - Google Translate API
 - sed
 - wget
