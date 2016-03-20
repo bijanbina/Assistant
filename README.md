@@ -1,9 +1,9 @@
 # Assistant
 For the time being assistant is only a translator assist in my daily reading course.
-It exercise google translate as it core side to scan traslate selected text, ask for better translation and if it's not already in the "phrase book" prompt for append in database.
+It exercise google translate as it core side to traslate selected text, ask for better translation and if it's not already in the "phrase book" prompt for append in database.
 
 ## Installation
-1. Create "AccountInfo_sample.sh" to "AccountInfo.sh".
+1. Rename "AccountInfo_sample.sh" to "AccountInfo.sh".
 2. get Cookie and phrasebook path by sniff http request. you can do that in firefox by ctrl+shift+q in Firefox
 3. Replace AccountInfo data with your cookie and url value.
 
