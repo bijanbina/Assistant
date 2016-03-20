@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="main.qml">../UI/main.qml</file>
+        <file alias="notification.qml">../UI/notification.qml</file>
+    </qresource>
+</RCC>
