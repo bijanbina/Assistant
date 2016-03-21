@@ -6,6 +6,10 @@ It exercise google translate as it core side to traslate selected text, ask for 
 1. Rename "AccountInfo_sample.sh" to "AccountInfo.sh".
 2. get Cookie and phrasebook path by sniff http request. you can do that in firefox by ctrl+shift+q in Firefox
 3. Replace AccountInfo data with your cookie and url value.
+4. Compile Qt project
+5. Add Assistant to your start up list ( I guarantee that it will be a quiet boy :) )
+6. Create a shortcut for Script/Translate.sh
+7. Enjoy
 
 
 ## Acknowledgments

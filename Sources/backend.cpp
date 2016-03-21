@@ -79,8 +79,8 @@ void startTranslate(QObject *item,QString word)
     translate = getTranslate(word);
     if (translate.isEmpty())
     {
-        translate = "Not Found";
         translate = getTranslateOnline(word);
+        QMetaObject::invokeMethod(item, "expandNotif"); //show warning
     }
     QQmlProperty::write(item, "title", word);
     QQmlProperty::write(item, "context", translate);

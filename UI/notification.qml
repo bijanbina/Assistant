@@ -64,17 +64,31 @@ Window {
             anchors.leftMargin: notif.width * 0.03
             anchors.topMargin: notif.height * 0.1
             anchors.top: titleLbl.bottom
+        }
 
+        Label
+        {
+            id:descriptionLbl
+            text : description
+            color: "#fff";
+            font.weight: Font.Normal
+            font.family: "Sans"
+            font.pixelSize: 8
+            anchors.left: icon.right
+            anchors.leftMargin: notif.width * 0.03
+            anchors.topMargin: 32
+            anchors.top: titleLbl.bottom
+            visible: false
         }
 
         Image
          {
+             id:closeBtn
              anchors.right: parent.right
              anchors.top: parent.top
              anchors.rightMargin: notif.width * 0.02
              anchors.topMargin: notif.width * 0.02
              source: "qrc:window-close.png"
-             id:closeBtn
              height : 14
              width: 14
              property bool isStarted: false
@@ -95,12 +109,20 @@ Window {
 
     function startNotif() {
         timeoutTimr.start();
+        notif.height = 60;
+        descriptionLbl.visible = false;
+    }
+
+    function expandNotif() {
+        //notif.height = 75;
+        descriptionLbl.visible = true;
     }
 
     property int x_base: 0 //this value get updated on start (in c sources)
     property int y_base: 0 //this value get updated on start (in c sources)
     property string context: 'text' //this value get updated on start (in c sources)
     property string title: 'title' //this value get updated on start (in c sources)
+    property string description: 'This phrase is not in \"phrasebook\"' //this value get updated on start (in c sources)
     visible: false
 }
 
