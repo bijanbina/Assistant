@@ -26,6 +26,31 @@ int getIntCommand(char *command)
     return returnData;
 }
 
+QString getStrCommand(QString command)
+{
+    FILE *fp;
+    QString returnData;
+
+    char path[1035];
+
+    /* Open the command for reading. */
+    fp = popen(command.toStdString().c_str(), "r");
+
+    if (fp == NULL) {
+      printf("Failed to run command\n" );
+      return returnData;
+    }
+
+    /* Read the output a line at a time - output it. */
+    while (fgets(path, sizeof(path)-1, fp) != NULL) {
+      returnData = QString(path);
+    }
+
+    /* close */
+    pclose(fp);
+    return returnData;
+}
+
 screen_pos getPrimaryScreen()
 {
     FILE *fp;
@@ -43,4 +68,34 @@ void updateScreenInfo(QObject *item)
     QQmlProperty::write(item, "x_base", PrimaryScreen.x);
     QQmlProperty::write(item, "y_base", PrimaryScreen.y);
     QQmlProperty::write(item, "visible", true);
+}
+
+void startTranslate(QObject *item)
+{
+    QString word,translate;
+    word = getStrCommand("xsel -o | sed \"s/[\\\"'<>]//g\"");
+    translate = getTranslate(word);
+    if (translate.isEmpty())
+    {
+        translate = "Not Found";
+        translate = getTranslateOnline(word);
+    }
+    QQmlProperty::write(item, "title", word);
+    QQmlProperty::write(item, "context", translate);
+}
+
+QString getTranslate(QString word)
+{
+    QString command = "grep \"";
+    command.append(word);
+    command.append(" \" /home/bijan/Project/Assistant/Scripts/phrasebook | awk -F \" , \" '{print $2}'");
+    return getStrCommand(command);// constrain
+}
+
+QString getTranslateOnline(QString word)
+{
+    QString command = "wget -U \"Mozilla/5.0\" -qO - \"http://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=fa&dt=t&q=";
+    command.append(word);
+    command.append(" \" | sed  -e \"s:\\[.*\\[::g\" -e \"s:].*]::g\" -e \"s:\\\"::g\"  | awk -F',' '{print $1}'");
+    return getStrCommand(command);// constrain
 }

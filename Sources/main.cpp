@@ -9,7 +9,9 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/notification.qml")));
-    updateScreenInfo(engine.rootObjects().first());
+    QObject *root = engine.rootObjects().first();
+    updateScreenInfo(root);
+    startTranslate(root);
 
     //l
     /*notify_init("OSharee");
