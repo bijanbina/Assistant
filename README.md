@@ -16,4 +16,5 @@ Assistant used following library, I just want to mention that this conquer can't
 - awk
 - qt
 - xrandr
+- D-Bus
 - [webupd8](http://www.webupd8.org/2016/03/translate-any-text-you-select-on-your.html)

@@ -5,6 +5,7 @@
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlProperty>
+#include <QtDBus>
 
 struct screen_pos{
     int x;
@@ -17,7 +18,7 @@ QString getStrCommand(QString *command);
 screen_pos getPrimaryScreen();
 
 void updateScreenInfo(QObject *item);
-void startTranslate(QObject *item);
+void startTranslate(QObject *item, QString word);
 
 QString getTranslate(QString word);
 QString getTranslateOnline(QString word);

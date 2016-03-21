@@ -86,6 +86,17 @@ Window {
          }
     }
 
+
+    Timer {
+        id:timeoutTimr
+        interval: 7000; running: false; repeat: false
+        onTriggered: notif.visible=false
+    }
+
+    function startNotif() {
+        timeoutTimr.start();
+    }
+
     property int x_base: 0 //this value get updated on start (in c sources)
     property int y_base: 0 //this value get updated on start (in c sources)
     property string context: 'text' //this value get updated on start (in c sources)

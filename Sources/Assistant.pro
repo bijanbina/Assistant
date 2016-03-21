@@ -1,9 +1,10 @@
 TEMPLATE = app
 
-QT += qml quick widgets
+QT += qml quick widgets dbus
 
 SOURCES += main.cpp \
-    backend.cpp
+    backend.cpp \
+    channel.cpp
 
 RESOURCES += ../Resources/resource.qrc
 
@@ -26,4 +27,5 @@ LIBS += -lnotify \
 QMAKE_CXXFLAGS += -pthread
 
 HEADERS += \
-    backend.h
+    backend.h \
+    channel.h

@@ -68,12 +68,14 @@ void updateScreenInfo(QObject *item)
     QQmlProperty::write(item, "x_base", PrimaryScreen.x);
     QQmlProperty::write(item, "y_base", PrimaryScreen.y);
     QQmlProperty::write(item, "visible", true);
+    QMetaObject::invokeMethod(item, "startNotif");
+
+
 }
 
-void startTranslate(QObject *item)
+void startTranslate(QObject *item,QString word)
 {
-    QString word,translate;
-    word = getStrCommand("xsel -o | sed \"s/[\\\"'<>]//g\"");
+    QString translate;
     translate = getTranslate(word);
     if (translate.isEmpty())
     {

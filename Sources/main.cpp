@@ -1,5 +1,5 @@
 
-#include "backend.h"
+#include "channel.h"
 
 int main(int argc, char *argv[])
 {
@@ -10,8 +10,8 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/notification.qml")));
     QObject *root = engine.rootObjects().first();
-    updateScreenInfo(root);
-    startTranslate(root);
+
+    Channel *dbusChnl = new Channel(root);
 
     //l
     /*notify_init("OSharee");
