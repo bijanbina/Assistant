@@ -8,8 +8,15 @@ It exercise google translate as it core side to traslate selected text, ask for 
 3. Replace AccountInfo data with your cookie and url value.
 4. Compile Qt project
 5. Add Assistant to your start up list ( I guarantee that it will be a quiet boy :) )
-6. Create a shortcut for Script/Translate.sh
-7. Enjoy
+7. Create a shortcut for Script/Translate.sh.to inform xbind your changes run following command
+```
+killall xbindkeys;xbindkeys
+```
+8. Add GSetting schema
+```
+sudo cp Resources/org.binaee.assistant.gschema.xml /usr/share/glib-2.0/schemas/;sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
+```
+8. Enjoy
 
 
 ## Acknowledgments
@@ -21,4 +28,5 @@ Assistant used following library, I just want to mention that this conquer can't
 - qt
 - xrandr
 - D-Bus
+- GSetting
 - [webupd8](http://www.webupd8.org/2016/03/translate-any-text-you-select-on-your.html)

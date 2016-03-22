@@ -23,6 +23,7 @@ void Channel::ConnectDBus()
     }
 
     session.connect("", "/", "com.binaee.assistant", "translate", this, SLOT(translate(const QString &)));
+    session.connect("", "/", "com.binaee.assistant", "direct", this, SLOT(translateDirect()));
 
     if(!session.registerObject("/", this, QDBusConnection::ExportScriptableContents)) {
         qFatal("Cannot registerObject.");
@@ -38,7 +39,16 @@ void Channel::ConnectDBus()
 void Channel::translate(const QString &text)
 {
     QString word = text;
-    qDebug() << "request received" << text;
+    //qDebug() << "request received" << text;
+    updateScreenInfo(root);
+    showNotif(root);
+    startTranslate(root,word);
+}
+
+void Channel::translateDirect()
+{
+    QString word = "Translate";
+    //qDebug() << "request received" << text;
     updateScreenInfo(root);
     startTranslate(root,word);
 }

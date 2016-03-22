@@ -12,17 +12,8 @@ int main(int argc, char *argv[])
     QObject *root = engine.rootObjects().first();
 
     Channel *dbusChnl = new Channel(root);
+    loadOptions();
 
-    //l
-    /*notify_init("OSharee");
-    NotifyNotification *message_notify;
-
-    message_notify = notify_notification_new ("title", "matn",NULL);
-
-    notify_notification_set_timeout (message_notify, 5);
-    notify_notification_show(message_notify,NULL);
-
-    g_object_unref(G_OBJECT(message_notify));*/
     return app.exec();
 }
 

@@ -1,5 +1,6 @@
 #include "backend.h"
 
+assistant_options option;
 
 int getIntCommand(char *command)
 {
@@ -46,6 +47,8 @@ QString getStrCommand(QString command)
       returnData = QString(path);
     }
 
+    returnData.remove('\n');
+
     /* close */
     pclose(fp);
     return returnData;
@@ -67,32 +70,71 @@ void updateScreenInfo(QObject *item)
     screen_pos PrimaryScreen = getPrimaryScreen();
     QQmlProperty::write(item, "x_base", PrimaryScreen.x);
     QQmlProperty::write(item, "y_base", PrimaryScreen.y);
-    QQmlProperty::write(item, "visible", true);
-    QMetaObject::invokeMethod(item, "startNotif");
-
-
 }
+
+assistant_options loadOptions()
+{
+    GSettings *setting;
+    setting = g_settings_new ("org.binaee.assistant");
+    option.strictLoad = g_settings_get_boolean (setting,"restrict-search");
+    qDebug() << "restrict-search is " << option.strictLoad;
+}
+
 
 void startTranslate(QObject *item,QString word)
 {
-    QString translate;
-    translate = getTranslate(word);
+    QString translate, title;
+    translate = getTranslateStrict(word);
+    title = word;
+    if (translate.isEmpty() && !(option.strictLoad))
+    {
+        title = getDiscovedWord(word);
+        translate = getTranslate(word);
+    }
     if (translate.isEmpty())
     {
         translate = getTranslateOnline(word);
-        QMetaObject::invokeMethod(item, "expandNotif"); //show warning
+        QMetaObject::invokeMethod(item, "expandNotif"); //show warning to
     }
-    QQmlProperty::write(item, "title", word);
+    QQmlProperty::write(item, "title", title);
     QQmlProperty::write(item, "context", translate);
+}
+
+QString getTranslateStrict(QString word)
+{
+    QString command = "grep -i -w \"";
+    command.append(word);
+    command.append(" \" /home/bijan/Project/Assistant/Scripts/phrasebook | awk -F \" , \" '{print $2}'");
+    QString translate = getStrCommand(command);
+    command = "grep -i -w \"";
+    command.append(word);
+    command.append(" \" /home/bijan/Project/Assistant/Scripts/phrasebook | awk -F \" , \" '{print $1}'");
+    if (word == getStrCommand(command))
+    {
+        return translate;// constrain
+    }
+    else
+    {
+        return "";
+    }
 }
 
 QString getTranslate(QString word)
 {
-    QString command = "grep \"";
+    QString command = "grep -i \"";
     command.append(word);
-    command.append(" \" /home/bijan/Project/Assistant/Scripts/phrasebook | awk -F \" , \" '{print $2}'");
+    command.append("\" /home/bijan/Project/Assistant/Scripts/phrasebook | awk -F \" , \" '{print $2}'");
     return getStrCommand(command);// constrain
 }
+
+QString getDiscovedWord(QString word)
+{
+    QString command = "grep -i \"";
+    command.append(word);
+    command.append(" \" /home/bijan/Project/Assistant/Scripts/phrasebook | awk -F \" , \" '{print $1}'");
+    return getStrCommand(command);// constrain
+}
+
 
 QString getTranslateOnline(QString word)
 {
@@ -100,4 +142,10 @@ QString getTranslateOnline(QString word)
     command.append(word);
     command.append(" \" | sed  -e \"s:\\[.*\\[::g\" -e \"s:].*]::g\" -e \"s:\\\"::g\"  | awk -F',' '{print $1}'");
     return getStrCommand(command);// constrain
+}
+
+void showNotif(QObject *item)
+{
+    QQmlProperty::write(item, "visible", true);
+    QMetaObject::invokeMethod(item, "startNotif");
 }
