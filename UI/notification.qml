@@ -60,8 +60,8 @@ Window {
             font.weight: Font.Normal
             font.family: "Sans"
             font.pixelSize: 13
-            anchors.left: icon.right
-            anchors.leftMargin: notif.width * 0.03
+            anchors.right: parent.right
+            anchors.rightMargin: notif.width * 0.09
             anchors.topMargin: notif.height * 0.1
             anchors.top: titleLbl.bottom
         }
@@ -73,10 +73,10 @@ Window {
             color: "#fff";
             font.weight: Font.Normal
             font.family: "Sans"
-            font.pixelSize: 8
-            anchors.left: icon.right
-            anchors.leftMargin: notif.width * 0.03
-            anchors.topMargin: 32
+            font.pixelSize: 9
+            anchors.right: contextLbl.left
+            anchors.rightMargin: notif.width * 0.01
+            anchors.topMargin: 11
             anchors.top: titleLbl.bottom
             visible: false
         }
@@ -108,7 +108,7 @@ Window {
     }
 
     function startNotif() {
-        timeoutTimr.start();
+        timeoutTimr.restart();
         notif.height = 60;
         descriptionLbl.visible = false;
     }
@@ -122,7 +122,7 @@ Window {
     property int y_base: 0 //this value get updated on start (in c sources)
     property string context: 'text' //this value get updated on start (in c sources)
     property string title: 'title' //this value get updated on start (in c sources)
-    property string description: 'This phrase is not in \"phrasebook\"' //this value get updated on start (in c sources)
+    property string description: '(this word is not in \"phrasebook\")' //this value get updated on start (in c sources)
     visible: false
 }
 
