@@ -75,7 +75,7 @@ void updateScreenInfo(QObject *item)
 assistant_options loadOptions()
 {
     GSettings *setting;
-    setting = g_settings_new ("org.binaee.assistant");
+    setting = g_settings_new (ORG_NAME);
     option.strictLoad = g_settings_get_boolean (setting,"restrict-search");
     qDebug() << "restrict-search is " << option.strictLoad;
 }
@@ -104,11 +104,15 @@ QString getTranslateStrict(QString word)
 {
     QString command = "grep -i -w \"";
     command.append(word);
-    command.append(" \" /home/bijan/Project/Assistant/Scripts/phrasebook | awk -F \" , \" '{print $2}'");
+    command.append(" \" ");
+    command.append(ASSISTANT_PATH"Scripts/phrasebook");
+    command.append(" | awk -F \" , \" '{print $2}'");
     QString translate = getStrCommand(command);
     command = "grep -i -w \"";
     command.append(word);
-    command.append(" \" /home/bijan/Project/Assistant/Scripts/phrasebook | awk -F \" , \" '{print $1}'");
+    command.append(" \" ");
+    command.append(ASSISTANT_PATH"Scripts/phrasebook");
+    command.append(" | awk -F \" , \" '{print $1}'");
     if (word == getStrCommand(command))
     {
         return translate;// constrain
@@ -123,7 +127,9 @@ QString getTranslate(QString word)
 {
     QString command = "grep -i \"";
     command.append(word);
-    command.append("\" /home/bijan/Project/Assistant/Scripts/phrasebook | awk -F \" , \" '{print $2}'");
+    command.append(" \" ");
+    command.append(ASSISTANT_PATH"Scripts/phrasebook");
+    command.append(" | awk -F \" , \" '{print $2}'");
     return getStrCommand(command);// constrain
 }
 
@@ -131,7 +137,9 @@ QString getDiscovedWord(QString word)
 {
     QString command = "grep -i \"";
     command.append(word);
-    command.append(" \" /home/bijan/Project/Assistant/Scripts/phrasebook | awk -F \" , \" '{print $1}'");
+    command.append(" \" ");
+    command.append(ASSISTANT_PATH"Scripts/phrasebook");
+    command.append(" | awk -F \" , \" '{print $1}'");
     return getStrCommand(command);// constrain
 }
 

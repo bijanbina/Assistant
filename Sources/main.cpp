@@ -13,6 +13,7 @@ int main(int argc, char *argv[])
 
     Channel *dbusChnl = new Channel(root);
     loadOptions();
+    dbusChnl->startServer();
 
     return app.exec();
 }

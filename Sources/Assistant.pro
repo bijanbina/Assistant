@@ -14,8 +14,7 @@ QML_IMPORT_PATH =
 DISTFILES += \
     ../UI/main.qml
 
-INCLUDEPATH +=  /usr/include/gdk-pixbuf-2.0 \
-    /usr/include/libpng16 \
+INCLUDEPATH +=  \
     /usr/include/glib-2.0 \
     /usr/lib/glib-2.0/include
 LIBS += -lnotify \

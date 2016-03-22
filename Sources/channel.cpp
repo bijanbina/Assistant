@@ -22,15 +22,15 @@ void Channel::ConnectDBus()
         return;
     }
 
-    session.connect("", "/", "com.binaee.assistant", "translate", this, SLOT(translate(const QString &)));
-    session.connect("", "/", "com.binaee.assistant", "direct", this, SLOT(translateDirect()));
+    session.connect("", "/", COM_NAME, "translate", this, SLOT(translate(const QString &)));
+    session.connect("", "/", COM_NAME, "direct", this, SLOT(translateDirect()));
 
     if(!session.registerObject("/", this, QDBusConnection::ExportScriptableContents)) {
         qFatal("Cannot registerObject.");
         return;
     }
 
-    if(!session.registerService("com.binaee.assistant")) {
+    if(!session.registerService(COM_NAME)) {
         qFatal("Cannot registerObject.");
         return;
     }
@@ -51,4 +51,24 @@ void Channel::translateDirect()
     //qDebug() << "request received" << text;
     updateScreenInfo(root);
     startTranslate(root,word);
+}
+
+void Channel::startServer()
+{
+    phChecker = new QTimer;
+    QObject::connect(phChecker,SIGNAL(timeout()),this,SLOT(checkPhraseBook()));
+    phChecker->start(3600000);
+}
+
+//check for phrasebook if its already outdated
+void Channel::checkPhraseBook()
+{
+    QFileInfo *phInfo = new QFileInfo(ASSISTANT_PATH"Scripts/phrasebook");
+    phChecker->start(3600000);
+    QDateTime now = QDateTime::currentDateTime();
+    if (now.toTime_t() - phInfo->created().toTime_t() > 28800)
+    {
+        qDebug() << "You need to Upgrade";
+        getIntCommand(ASSISTANT_PATH"Scripts/ph_download.sh");
+    }
 }
