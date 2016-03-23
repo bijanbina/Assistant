@@ -88,8 +88,9 @@ void startTranslate(QObject *item,QString word)
     title = word;
     if (translate.isEmpty() && !(option.strictLoad))
     {
-        title = getDiscovedWord(word);
         translate = getTranslate(word);
+        if (!translate.isEmpty())
+            title = getDiscovedWord(word);
     }
     if (translate.isEmpty())
     {

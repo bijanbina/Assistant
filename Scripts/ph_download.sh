@@ -11,6 +11,3 @@ awk -F "," '{print $4,",",$5}' phrasebookv1 > phrasebookv2 #strip down to word a
 mv phrasebookv2 phrasebook	#for debug purpuse
 rm phrasebookv0 phrasebookv1	#comment these lines constrains
 cd $lastDir
-
-
-grep "foreword " /home/bijan/Project/Assistant/Scripts/phrasebook | awk -F " , " '{printf "%s",$1}'

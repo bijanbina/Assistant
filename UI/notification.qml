@@ -22,21 +22,22 @@ Window {
             anchors.fill: parent
         }
         Image
-         {
-             anchors.left: parent.left
-             anchors.verticalCenter: parent.verticalCenter
-             anchors.leftMargin: notif.width * 0.03
-             source: "qrc:GIcon48.png"
-             id:icon
-             height : 35
-             width: 35
-             property bool isStarted: false
-             MouseArea
-             {
-                 id:menubtn_mousearea
-                 anchors.fill: parent
-             }
-         }
+        {
+            anchors.left: parent.left
+            //anchors.verticalCenter: parent.verticalCenter
+            anchors.leftMargin: notif.width * 0.03
+            source: "qrc:GIcon48.png"
+            id:icon
+            y:12
+            height : 35
+            width: 35
+            property bool isStarted: false
+            MouseArea
+            {
+                id:menubtn_mousearea
+                anchors.fill: parent
+            }
+        }
 
         Label
         {
@@ -44,11 +45,11 @@ Window {
             text : title
             color: "#fff";
             font.weight: Font.Bold
-            font.family: "Sans"
+            font.family: "Cantarell"
             font.pixelSize: 13
             anchors.left: icon.right
             anchors.leftMargin: notif.width * 0.03
-            anchors.topMargin: notif.height * 0.13
+            anchors.topMargin: 11
             anchors.top: parent.top
 
         }
@@ -58,11 +59,11 @@ Window {
             text : context
             color: "#fff";
             font.weight: Font.Normal
-            font.family: "Sans"
+            font.family: "Cantarell"
             font.pixelSize: 13
             anchors.right: parent.right
             anchors.rightMargin: notif.width * 0.09
-            anchors.topMargin: notif.height * 0.1
+            anchors.topMargin: 7.5
             anchors.top: titleLbl.bottom
         }
 
@@ -72,52 +73,119 @@ Window {
             text : description
             color: "#fff";
             font.weight: Font.Normal
-            font.family: "Sans"
+            font.family: "Cantarell"
             font.pixelSize: 9
             anchors.right: contextLbl.left
             anchors.rightMargin: notif.width * 0.01
             anchors.topMargin: 11
             anchors.top: titleLbl.bottom
-            visible: false
+            visible: expand
         }
 
         Image
-         {
-             id:closeBtn
-             anchors.right: parent.right
-             anchors.top: parent.top
-             anchors.rightMargin: notif.width * 0.02
-             anchors.topMargin: notif.width * 0.02
-             source: "qrc:window-close.png"
-             height : 14
-             width: 14
-             property bool isStarted: false
-             MouseArea
-             {
-                 onClicked: {Qt.quit()}
-                 anchors.fill: parent
-             }
-         }
+        {
+            id:closeBtn
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.rightMargin: notif.width * 0.02
+            anchors.topMargin: notif.width * 0.02
+            source: "qrc:window-close.png"
+            height : 14
+            width: 14
+            property bool isStarted: false
+            MouseArea
+            {
+                onClicked: {Qt.quit()}
+                anchors.fill: parent
+            }
+        }
+
+        Rectangle
+        {
+            id: lineSplitter
+            height : 1
+            color: "#1c1f1f"
+            anchors.top: contextLbl.bottom
+            anchors.right: parent.right;
+            anchors.left: parent.left;
+            anchors.topMargin: 9
+            visible: expand
+        }
+
+        Rectangle
+        {
+            id: pane
+            color: "#262a2b"
+            anchors.top: lineSplitter.bottom
+            anchors.right: parent.right;
+            anchors.left: parent.left;
+            anchors.bottom: parent.bottom;
+            visible: expand
+        }
+
+        Rectangle
+        {
+            id: inputPane
+            color: "#d9d9d9"
+            anchors.top: pane.top
+            anchors.right: parent.right;
+            anchors.left: parent.left;
+            anchors.bottom: parent.bottom;
+
+            anchors.topMargin: 8
+            anchors.bottomMargin: 8
+            anchors.rightMargin: 25
+            anchors.leftMargin: 20
+
+            radius:6
+            visible: expand
+        }
+
+        TextInput
+        {
+            z:5
+            id: inputBox
+            anchors.right: inputPane.right;
+            anchors.left: inputPane.left;
+
+            anchors.topMargin: 5
+            anchors.verticalCenter: inputPane.verticalCenter
+            anchors.rightMargin: 10
+            anchors.leftMargin: 10
+            text: "hi"
+            cursorVisible: true
+            selectByMouse: true
+            selectionColor: "#308cc6"
+            MouseArea
+            {
+                anchors.fill: parent
+                cursorShape: Qt.IBeamCursor
+                acceptedButtons: Qt.NoButton
+            }
+            visible: expand
+        }
+
     }
 
 
     Timer {
         id:timeoutTimr
-        interval: 7000; running: false; repeat: false
+        interval: 15000; running: false; repeat: false
         onTriggered: notif.visible=false
     }
 
     function startNotif() {
         timeoutTimr.restart();
         notif.height = 60;
-        descriptionLbl.visible = false;
+        expand = false;
     }
 
     function expandNotif() {
-        //notif.height = 75;
-        descriptionLbl.visible = true;
+        notif.height = 110;
+        expand = true;
     }
 
+    property bool expand: false //this value get updated on start (in c sources)
     property int x_base: 0 //this value get updated on start (in c sources)
     property int y_base: 0 //this value get updated on start (in c sources)
     property string context: 'text' //this value get updated on start (in c sources)

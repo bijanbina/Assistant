@@ -26,12 +26,12 @@ void Channel::ConnectDBus()
     session.connect("", "/", COM_NAME, "direct", this, SLOT(translateDirect()));
 
     if(!session.registerObject("/", this, QDBusConnection::ExportScriptableContents)) {
-        qFatal("Cannot registerObject.");
+        qFatal("Another session is on DBus.");
         return;
     }
 
     if(!session.registerService(COM_NAME)) {
-        qFatal("Cannot registerObject.");
+        qFatal("Another session is on DBus.");
         return;
     }
 }
@@ -68,7 +68,7 @@ void Channel::checkPhraseBook()
     QDateTime now = QDateTime::currentDateTime();
     if (now.toTime_t() - phInfo->created().toTime_t() > 28800)
     {
-        qDebug() << "You need to Upgrade";
+        qDebug() << "Upgrade Now Going";
         getIntCommand(ASSISTANT_PATH"Scripts/ph_download.sh");
     }
 }
