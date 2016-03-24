@@ -12,7 +12,7 @@ else
 fi
 
 if [ -n "$2" ]; then
-	TRANSLATE=$1
+	TRANSLATE=$2
 else
 	echo "ph_add <word> <translate>"
 	exit 0

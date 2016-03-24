@@ -5,7 +5,7 @@ import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.1
 
 Window {
-    flags: Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.SplashScreen;
+    flags: Qt.FramelessWindowHint | Qt.SplashScreen // | Qt.WindowStaysOnTopHint;
     id: notif
     width: 500
     height: 60
@@ -95,7 +95,7 @@ Window {
             property bool isStarted: false
             MouseArea
             {
-                onClicked: {Qt.quit()}
+                onClicked: notif.hide() //Qt.quit()
                 anchors.fill: parent
             }
         }
@@ -163,6 +163,8 @@ Window {
                 acceptedButtons: Qt.NoButton
             }
             visible: expand
+
+            onAccepted: addPhSignal(title,inputBox.text)
         }
 
     }
@@ -171,14 +173,13 @@ Window {
     Timer {
         id:timeoutTimr
         interval: 150000; running: false; repeat: false
-        onTriggered: notif.visible=false
+        onTriggered: notif.hide()
     }
 
     function startNotif() {
         timeoutTimr.restart();
         notif.height = 60;
         expand = false;
-
     }
 
     function expandNotif() {
@@ -190,6 +191,12 @@ Window {
         inputBox.text = ""
     }
 
+
+
+    //Signals:
+    signal addPhSignal(string title,string word)
+
+    //Property
     property bool expand: false //this value get updated on start (in c sources)
     property int x_base: 0 //this value get updated on start (in c sources)
     property int y_base: 0 //this value get updated on start (in c sources)

@@ -155,6 +155,16 @@ QString getTranslateOnline(QString word)
 
 void showNotif(QObject *item)
 {
-    QQmlProperty::write(item, "visible", true);
     QMetaObject::invokeMethod(item, "startNotif");
+    QMetaObject::invokeMethod(item, "show");
+    //QQmlProperty::write(item, "visible", true);
+}
+
+QString addPhraseBook(QString word, QString translate)
+{
+    QString command = ASSISTANT_PATH"Scripts/ph_add.sh ";
+    command.append(word);
+    command.append(" ");
+    command.append(translate);
+    return getStrCommand(command);// constrain
 }

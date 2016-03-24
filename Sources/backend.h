@@ -37,5 +37,6 @@ QString getTranslate(QString word);
 QString getDiscovedWord(QString word);
 QString getTranslateStrict(QString word);
 QString getTranslateOnline(QString word);
+QString addPhraseBook(QString word, QString translate);
 
 #endif // BACKEND_H

@@ -22,6 +22,7 @@ public slots:
     Q_SCRIPTABLE void translate(const QString &text);
     Q_SCRIPTABLE void translateDirect();
     void checkPhraseBook();
+    void writeAccepted(QString title, QString word);
 
 private:
     void ConnectDBus();

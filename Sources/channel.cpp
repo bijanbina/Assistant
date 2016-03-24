@@ -72,3 +72,10 @@ void Channel::checkPhraseBook()
         getIntCommand(ASSISTANT_PATH"Scripts/ph_download.sh");
     }
 }
+
+void Channel::writeAccepted(QString title, QString word)
+{
+    qDebug() << "writeAccepted";
+    addPhraseBook(title, word);
+    QMetaObject::invokeMethod(root, "hide");
+}

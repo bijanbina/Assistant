@@ -12,6 +12,9 @@ int main(int argc, char *argv[])
     QObject *root = engine.rootObjects().first();
 
     Channel *dbusChnl = new Channel(root);
+
+    QObject::connect(root, SIGNAL(addPhSignal(QString , QString)), dbusChnl, SLOT(writeAccepted(QString , QString)));
+
     loadOptions();
     dbusChnl->startServer();
 
