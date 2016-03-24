@@ -23,10 +23,13 @@ dont forget to coustomize it to match your requirement
 ```
 killall xbindkeys;xbindkeys
 ```
+
 8. Add GSetting schema
+
 ```
 sudo cp Resources/org.binaee.assistant.gschema.xml /usr/share/glib-2.0/schemas/;sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
 ```
+
 9. Enjoy
 
 

@@ -23,6 +23,7 @@ public slots:
     Q_SCRIPTABLE void translateDirect();
     void checkPhraseBook();
     void writeAccepted(QString title, QString word);
+    void lostFocus();
 
 private:
     void ConnectDBus();

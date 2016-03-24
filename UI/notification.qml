@@ -163,8 +163,10 @@ Window {
                 acceptedButtons: Qt.NoButton
             }
             visible: expand
+            horizontalAlignment: TextInput.AlignRight
 
             onAccepted: addPhSignal(title,inputBox.text)
+            //Keys.
         }
 
     }
@@ -175,6 +177,11 @@ Window {
         interval: 150000; running: false; repeat: false
         onTriggered: notif.hide()
     }
+
+    onActiveChanged: if (!active) {
+                         hide()
+                         lostFocus()
+                     }
 
     function startNotif() {
         timeoutTimr.restart();
@@ -195,6 +202,7 @@ Window {
 
     //Signals:
     signal addPhSignal(string title,string word)
+    signal lostFocus()
 
     //Property
     property bool expand: false //this value get updated on start (in c sources)

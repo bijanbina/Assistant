@@ -1,0 +1,8 @@
+#! /bin/bash
+case "$(xset -q|grep LED| awk '{ print $10 }')" in
+  "00000002") KBD=0 ;;
+  "00001002") KBD=1 ;;
+  "00000000") KBD=-1 ;;
+esac
+
+echo $KBD

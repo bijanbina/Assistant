@@ -75,7 +75,12 @@ void Channel::checkPhraseBook()
 
 void Channel::writeAccepted(QString title, QString word)
 {
+    QMetaObject::invokeMethod(root, "hide");
     qDebug() << "writeAccepted";
     addPhraseBook(title, word);
-    QMetaObject::invokeMethod(root, "hide");
+}
+
+void Channel::lostFocus()
+{
+    changeLaguageBack();
 }

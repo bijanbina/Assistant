@@ -19,6 +19,7 @@ struct screen_pos{
 struct assistant_options{
     bool strictLoad;
     int  timeout;
+    int  currentLanguage;
 } ;
 
 
@@ -28,6 +29,7 @@ int getIntCommand(char *command);
 QString getStrCommand(QString *command);
 
 screen_pos getPrimaryScreen();
+void changeLaguageBack();
 
 void updateScreenInfo(QObject *item);
 void startTranslate(QObject *item, QString word);
@@ -38,5 +40,6 @@ QString getDiscovedWord(QString word);
 QString getTranslateStrict(QString word);
 QString getTranslateOnline(QString word);
 QString addPhraseBook(QString word, QString translate);
+
 
 #endif // BACKEND_H

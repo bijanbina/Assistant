@@ -95,7 +95,9 @@ void startTranslate(QObject *item,QString word)
     if (translate.isEmpty())
     {
         translate = getTranslateOnline(word);
+        getIntCommand("setxkbmap ir");
         QMetaObject::invokeMethod(item, "expandNotif"); //show warning to
+
     }
     QQmlProperty::write(item, "title", title);
     QQmlProperty::write(item, "context", translate);
@@ -162,9 +164,21 @@ void showNotif(QObject *item)
 
 QString addPhraseBook(QString word, QString translate)
 {
+    changeLaguageBack();
     QString command = ASSISTANT_PATH"Scripts/ph_add.sh ";
     command.append(word);
     command.append(" ");
     command.append(translate);
     return getStrCommand(command);// constrain
+}
+void changeLaguageBack()
+{
+    if ( option.currentLanguage == 0 )
+    {
+        getIntCommand("setxkbmap -option grp:alt_shift_toggle us,ir");
+    }
+    else
+    {
+        getIntCommand("setxkbmap -option grp:alt_shift_toggle ir,us");
+    }
 }
