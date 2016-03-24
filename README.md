@@ -10,7 +10,9 @@ It exercise google translate as it core side to traslate selected text, ask for 
 5. Add Assistant to your start up list ( I guarantee that it will be a quiet boy :) )
 7. Create a shortcut for Script/Translate.sh. 
 if you like to map it to your mouse button first create xbind configuration file by
+```
 xbindkeys --defaults > ~/.xbindkeysrc
+```
 and add these lines to it
 ```
 "/home/lolo/PathToAssistant/Scripts/Translate.sh"
@@ -25,7 +27,7 @@ killall xbindkeys;xbindkeys
 ```
 sudo cp Resources/org.binaee.assistant.gschema.xml /usr/share/glib-2.0/schemas/;sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
 ```
-8. Enjoy
+9. Enjoy
 
 
 ## Acknowledgments
