@@ -5,7 +5,7 @@ import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.1
 
 Window {
-    flags: Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.SplashScreen
+    flags: Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.SplashScreen;
     id: notif
     width: 500
     height: 60
@@ -170,7 +170,7 @@ Window {
 
     Timer {
         id:timeoutTimr
-        interval: 15000; running: false; repeat: false
+        interval: 150000; running: false; repeat: false
         onTriggered: notif.visible=false
     }
 
@@ -178,11 +178,16 @@ Window {
         timeoutTimr.restart();
         notif.height = 60;
         expand = false;
+
     }
 
     function expandNotif() {
         notif.height = 110;
         expand = true;
+        notif.raise();
+        notif.requestActivate();
+        inputBox.forceActiveFocus();
+        inputBox.text = ""
     }
 
     property bool expand: false //this value get updated on start (in c sources)
