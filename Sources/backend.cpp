@@ -84,6 +84,8 @@ assistant_options loadOptions()
 void startTranslate(QObject *item,QString word)
 {
     QString translate, title;
+    QString formMethod = "normalForm";
+
     translate = getTranslateStrict(word);
     title = word;
     if (translate.isEmpty() && !(option.strictLoad))
@@ -96,9 +98,10 @@ void startTranslate(QObject *item,QString word)
     {
         translate = getTranslateOnline(word);
         getIntCommand("setxkbmap ir");
-        QMetaObject::invokeMethod(item, "expandNotif"); //show warning to
+        formMethod = "expandForm";
 
     }
+    QMetaObject::invokeMethod(item, formMethod.toStdString().c_str()); //show warning to
     QQmlProperty::write(item, "title", title);
     QQmlProperty::write(item, "context", translate);
 }
@@ -136,6 +139,17 @@ QString getTranslate(QString word)
     return getStrCommand(command);// constrain
 }
 
+void askWord(QObject *item)
+{
+    QString context, title;
+
+    title = "Translate";
+    context = "Enter your word";
+    QMetaObject::invokeMethod(item, "inputForm"); //show warning to
+    QQmlProperty::write(item, "title", title);
+    QQmlProperty::write(item, "context", context);
+}
+
 QString getDiscovedWord(QString word)
 {
     QString command = "grep -i \"";
@@ -152,14 +166,13 @@ QString getTranslateOnline(QString word)
     QString command = "wget -U \"Mozilla/5.0\" -qO - \"http://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=fa&dt=t&q=";
     command.append(word);
     command.append(" \" | sed  -e \"s:\\[.*\\[::g\" -e \"s:].*]::g\" -e \"s:\\\"::g\"  | awk -F',' '{print $1}'");
+    qDebug() << "hi";
     return getStrCommand(command);// constrain
 }
 
 void showNotif(QObject *item)
 {
-    QMetaObject::invokeMethod(item, "startNotif");
-    QMetaObject::invokeMethod(item, "show");
-    //QQmlProperty::write(item, "visible", true);
+    QMetaObject::invokeMethod(item, "showNotif");
 }
 
 QString addPhraseBook(QString word, QString translate)

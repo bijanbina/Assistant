@@ -36,6 +36,7 @@ void startTranslate(QObject *item, QString word);
 void showNotif(QObject *item);
 
 QString getTranslate(QString word);
+void askWord(QObject *item);
 QString getDiscovedWord(QString word);
 QString getTranslateStrict(QString word);
 QString getTranslateOnline(QString word);

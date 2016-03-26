@@ -19,17 +19,20 @@ public:
     ~Channel();
 
 public slots:
-    Q_SCRIPTABLE void translate(const QString &text);
-    Q_SCRIPTABLE void translateDirect();
+    void translateDirect();
+    void translate(const QString &text);
+    //Q_SCRIPTABLE void translate(const QString &text);
+
     void checkPhraseBook();
     void writeAccepted(QString title, QString word);
-    void lostFocus();
+    void notifExit();
 
 private:
     void ConnectDBus();
 
     QObject *root;
     QTimer  *phChecker; //phrase checker
+    bool    isDirectLoad;
 };
 
 

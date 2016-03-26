@@ -13,6 +13,7 @@ Window {
     y:y_base + 32
     color: "transparent"
     Rectangle{
+        id: contextPane
         anchors.fill: parent
         radius:6
         color: "#2e3436"
@@ -79,7 +80,7 @@ Window {
             anchors.rightMargin: notif.width * 0.01
             anchors.topMargin: 11
             anchors.top: titleLbl.bottom
-            visible: expand
+            visible: expand && (! direct)
         }
 
         Image
@@ -95,7 +96,10 @@ Window {
             property bool isStarted: false
             MouseArea
             {
-                onClicked: notif.hide() //Qt.quit()
+                onClicked: {
+                    notifExit() //Qt.quit()
+                    notif.hide();
+                }
                 anchors.fill: parent
             }
         }
@@ -134,7 +138,7 @@ Window {
 
             anchors.topMargin: 8
             anchors.bottomMargin: 8
-            anchors.rightMargin: 25
+            anchors.rightMargin: 35
             anchors.leftMargin: 20
 
             radius:6
@@ -163,7 +167,7 @@ Window {
                 acceptedButtons: Qt.NoButton
             }
             visible: expand
-            horizontalAlignment: TextInput.AlignRight
+            horizontalAlignment: (direct) ? TextInput.AlignLeft  : TextInput.AlignRight
 
             onAccepted: addPhSignal(title,inputBox.text)
             //Keys.
@@ -174,38 +178,72 @@ Window {
 
     Timer {
         id:timeoutTimr
-        interval: 150000; running: false; repeat: false
-        onTriggered: notif.hide()
+        interval: 15000; running: false; repeat: false
+        onTriggered: {
+            notif.hide();
+            notifExit()
+        }
     }
 
     onActiveChanged: if (!active) {
+                         notifExit()
                          hide()
-                         lostFocus()
                      }
 
-    function startNotif() {
+    function showNotif() {
         timeoutTimr.restart();
+        show();
+        notif.requestActivate(); //notif.raise()
+        inputBox.forceActiveFocus();
+    }
+
+    function normalForm() {
         notif.height = 60;
         expand = false;
     }
 
-    function expandNotif() {
+    function expandForm() {
         notif.height = 110;
         expand = true;
-        notif.raise();
-        notif.requestActivate();
-        inputBox.forceActiveFocus();
+        direct = false;
         inputBox.text = ""
+        setContextAlign(direct)
+    }
+
+    function inputForm() {
+        notif.height = 110;
+        expand = true;
+        direct = true;
+        inputBox.text = ""
+        setContextAlign(direct)
+    }
+
+    function setContextAlign (left)
+    {
+        if (left)
+        {
+            contextLbl.anchors.right = undefined; //reset anchor
+            contextLbl.anchors.left = icon.right;
+            contextLbl.anchors.leftMargin = notif.width * 0.03
+        }
+        else
+        {
+            contextLbl.anchors.left = undefined;
+            contextLbl.anchors.right = contextPane.right;
+            contextLbl.anchors.rightMargin = notif.width * 0.09
+
+        }
     }
 
 
 
     //Signals:
     signal addPhSignal(string title,string word)
-    signal lostFocus()
+    signal notifExit()
 
     //Property
     property bool expand: false //this value get updated on start (in c sources)
+    property bool direct: false //this value get updated on start (in c sources)
     property int x_base: 0 //this value get updated on start (in c sources)
     property int y_base: 0 //this value get updated on start (in c sources)
     property string context: 'text' //this value get updated on start (in c sources)

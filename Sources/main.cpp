@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     Channel *dbusChnl = new Channel(root);
 
     QObject::connect(root, SIGNAL(addPhSignal(QString , QString)), dbusChnl, SLOT(writeAccepted(QString , QString)));
-    QObject::connect(root, SIGNAL(lostFocus()), dbusChnl, SLOT(lostFocus()));
+    QObject::connect(root, SIGNAL(notifExit()), dbusChnl, SLOT(notifExit()));
 
 
     loadOptions();

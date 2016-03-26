@@ -25,10 +25,10 @@ void Channel::ConnectDBus()
     session.connect("", "/", COM_NAME, "translate", this, SLOT(translate(const QString &)));
     session.connect("", "/", COM_NAME, "direct", this, SLOT(translateDirect()));
 
-    if(!session.registerObject("/", this, QDBusConnection::ExportScriptableContents)) {
+    /*if(!session.registerObject("/", this, QDBusConnection::ExportScriptableContents)) {
         qFatal("Another session is on DBus.");
         return;
-    }
+    }*/
 
     if(!session.registerService(COM_NAME)) {
         qFatal("Another session is on DBus.");
@@ -39,18 +39,22 @@ void Channel::ConnectDBus()
 void Channel::translate(const QString &text)
 {
     QString word = text;
+
+    isDirectLoad = true;
+
     //qDebug() << "request received" << text;
     updateScreenInfo(root);
-    showNotif(root);
     startTranslate(root,word);
+    showNotif(root);
 }
 
 void Channel::translateDirect()
 {
-    QString word = "Translate";
-    //qDebug() << "request received" << text;
+    isDirectLoad = true;
+
     updateScreenInfo(root);
-    startTranslate(root,word);
+    askWord(root);
+    showNotif(root);
 }
 
 void Channel::startServer()
@@ -75,12 +79,19 @@ void Channel::checkPhraseBook()
 
 void Channel::writeAccepted(QString title, QString word)
 {
-    QMetaObject::invokeMethod(root, "hide");
-    qDebug() << "writeAccepted";
-    addPhraseBook(title, word);
+    if ( isDirectLoad )
+    {
+        translate(word);
+    }
+    else
+    {
+        QMetaObject::invokeMethod(root, "hide");
+        qDebug() << "writeAccepted";
+        addPhraseBook(title, word);
+    }
 }
 
-void Channel::lostFocus()
+void Channel::notifExit()
 {
     changeLaguageBack();
 }
