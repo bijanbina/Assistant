@@ -40,7 +40,7 @@ void Channel::translate(const QString &text)
 {
     QString word = text;
 
-    isDirectLoad = true;
+    isDirectLoad = false;
 
     //qDebug() << "request received" << text;
     updateScreenInfo(root);
