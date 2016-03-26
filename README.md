@@ -9,9 +9,10 @@ It exercise google translate as it core side to traslate selected text, ask for 
 4. Compile Qt project
 5. Add Assistant to your start up list ( I guarantee that it will be a quiet boy :) )
 7. Create a shortcut for Script/Translate.sh. 
+
 	if you like to map it to your mouse button first create xbind configuration file by
 	`xbindkeys --defaults > ~/.xbindkeysrc`
-	and add these lines to it
+	then coustomize following lines and add it to your configuration file
 	
 	```
 	"/home/lolo/PathToAssistant/Scripts/Translate.sh"
@@ -20,8 +21,7 @@ It exercise google translate as it core side to traslate selected text, ask for 
 	  Control + b:8
 	```
 	
-	To inform xbind your changes run following command
-	dont forget to coustomize it to match your requirement
+	To inform xbind your changes run
 	
 	`killall xbindkeys;xbindkeys`
 	
