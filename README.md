@@ -12,17 +12,19 @@ It exercise google translate as it core side to traslate selected text, ask for 
 	if you like to map it to your mouse button first create xbind configuration file by
 	`xbindkeys --defaults > ~/.xbindkeysrc`
 	and add these lines to it
+	
 	```
 	"/home/lolo/PathToAssistant/Scripts/Translate.sh"
 	  b:8
 	"/home/lolo/PathToAssistant/Scripts/DirectTranslate.sh"
 	  Control + b:8
 	```
+	
 	To inform xbind your changes run following command
 	dont forget to coustomize it to match your requirement
-	```
-	killall xbindkeys;xbindkeys
-	```
+	
+	`killall xbindkeys;xbindkeys`
+	
 8. Add GSetting schema
 	```
 	sudo cp Resources/org.binaee.assistant.gschema.xml /usr/share/glib-2.0/schemas/;sudo glib-compile-schemas /usr/share/glib-2.0/schemas/

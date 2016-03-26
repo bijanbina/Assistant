@@ -178,7 +178,9 @@ Window {
 
     Timer {
         id:timeoutTimr
-        interval: 15000; running: false; repeat: false
+        interval: timeout;
+        running: false;
+        repeat: false;
         onTriggered: {
             notif.hide();
             notifExit()
@@ -242,10 +244,13 @@ Window {
     signal notifExit()
 
     //Property
-    property bool expand: false //this value get updated on start (in c sources)
-    property bool direct: false //this value get updated on start (in c sources)
-    property int x_base: 0 //this value get updated on start (in c sources)
-    property int y_base: 0 //this value get updated on start (in c sources)
+
+    //these values get updated inside c sources code
+    property bool expand: false
+    property bool direct: false
+    property int x_base: 0
+    property int y_base: 0
+    property int timeout: 15000 //this value get updated on start (in c sources)
     property string context: 'text' //this value get updated on start (in c sources)
     property string title: 'title' //this value get updated on start (in c sources)
     property string description: '(this word is not in \"phrasebook\")' //this value get updated on start (in c sources)

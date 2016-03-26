@@ -77,7 +77,9 @@ assistant_options loadOptions()
     GSettings *setting;
     setting = g_settings_new (ORG_NAME);
     option.strictLoad = g_settings_get_boolean (setting,"restrict-search");
+    option.timeout = g_settings_get_int(setting,"timeout");
     qDebug() << "restrict-search is " << option.strictLoad;
+    qDebug() << "timeout is " << option.timeout;
 }
 
 
@@ -104,6 +106,7 @@ void startTranslate(QObject *item,QString word)
     QMetaObject::invokeMethod(item, formMethod.toStdString().c_str()); //show warning to
     QQmlProperty::write(item, "title", title);
     QQmlProperty::write(item, "context", translate);
+    QQmlProperty::write(item, "timeout", option.timeout );
 }
 
 QString getTranslateStrict(QString word)
@@ -148,6 +151,7 @@ void askWord(QObject *item)
     QMetaObject::invokeMethod(item, "inputForm"); //show warning to
     QQmlProperty::write(item, "title", title);
     QQmlProperty::write(item, "context", context);
+    QQmlProperty::write(item, "timeout", 100000 );
 }
 
 QString getDiscovedWord(QString word)
