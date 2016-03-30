@@ -28,3 +28,5 @@ QMAKE_CXXFLAGS += -pthread
 HEADERS += \
     backend.h \
     channel.h
+
+CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT

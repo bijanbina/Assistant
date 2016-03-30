@@ -99,6 +99,7 @@ void startTranslate(QObject *item,QString word)
     if (translate.isEmpty())
     {
         translate = getTranslateOnline(word);
+        option.currentLanguage = getIntCommand(ASSISTANT_PATH"Scripts/phrasebook");
         getIntCommand("setxkbmap ir");
         formMethod = "expandForm";
 
@@ -146,6 +147,9 @@ void askWord(QObject *item)
 {
     QString context, title;
 
+    option.currentLanguage = getIntCommand(ASSISTANT_PATH"Scripts/phrasebook");
+    getIntCommand("setxkbmap -option grp:alt_shift_toggle us,ir");
+
     title = "Translate";
     context = "Enter your word";
     QMetaObject::invokeMethod(item, "inputForm"); //show warning to
@@ -167,7 +171,7 @@ QString getDiscovedWord(QString word)
 
 QString getTranslateOnline(QString word)
 {
-    QString command = "wget -U \"Mozilla/5.0\" -qO - \"http://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=fa&dt=t&q=";
+    QString command = "wget -T 5 -U \"Mozilla/5.0\" -qO - \"http://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=fa&dt=t&q=";
     command.append(word);
     command.append(" \" | sed  -e \"s:\\[.*\\[::g\" -e \"s:].*]::g\" -e \"s:\\\"::g\"  | awk -F',' '{print $1}'");
     qDebug() << "hi";
@@ -197,6 +201,6 @@ void changeLaguageBack()
     }
     else
     {
-        getIntCommand("setxkbmap -option grp:alt_shift_toggle ir,us");
+        getIntCommand("setxkbmap -option grp:alt_shift_toggle us,ir");
     }
 }

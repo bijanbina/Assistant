@@ -11,6 +11,7 @@
 #define ORG_NAME "org.binaee.assistant"
 #define ASSISTANT_PATH "/home/bijan/Project/Assistant/"
 
+
 struct screen_pos{
     int x;
     int y;

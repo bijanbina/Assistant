@@ -29,6 +29,12 @@
       </description>
     </key>
  
+    <key name="url-code" type="s">
+        <default>'Null'</default>
+        <summary>phrasebook url code</summary>
+        <description>url code use to download and upload phrasebook</description>
+    </key>
+ 
     <key name="list-of-strings" type="as">
         <default>[]</default>
         <summary>Some words</summary>

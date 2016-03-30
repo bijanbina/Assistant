@@ -3,12 +3,11 @@ For the time being assistant is only a translator assist in my daily reading cou
 It exercise google translate as it core side to traslate selected text, ask for better translation and if it's not already in the "phrase book" prompt for append in database.
 
 ## Installation
-1. Rename "AccountInfo_sample.sh" to "AccountInfo.sh".
-2. get Cookie and phrasebook path by sniff http request. you can do that by press ctrl+shift+q in Firefox
-3. Replace AccountInfo data with your cookie and url value.
-4. Compile Qt project
-5. Add Assistant to your start up list ( I guarantee that it will be a quiet boy :) )
-7. Create a shortcut for Script/Translate.sh. 
+1. Rename "AccountInfo_sample.sh" to "AccountInfo.sh" and update cookie value.
+	you can get your Google account cookie by sniff http request in your browser, in Firefox it can be done by press ctrl+shift+q. 
+2. Compile Qt project
+3. Add Assistant to your start up list ( I guarantee that it will be a quiet boy :) )
+4. Create a shortcut for Script/Translate.sh. 
 
 	if you like to map it to your mouse button first create xbind configuration file by
 	`xbindkeys --defaults > ~/.xbindkeysrc`
@@ -25,11 +24,11 @@ It exercise google translate as it core side to traslate selected text, ask for 
 	
 	`killall xbindkeys;xbindkeys`
 	
-8. Add GSetting schema
+5. Add GSetting schema
 	```
 	sudo cp Resources/org.binaee.assistant.gschema.xml /usr/share/glib-2.0/schemas/;sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
 	```
-9. Enjoy
+6. Enjoy
 
 
 ## Acknowledgments

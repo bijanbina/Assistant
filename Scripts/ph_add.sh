@@ -18,5 +18,6 @@ else
 	exit 0
 fi
 
+url_add=$( gsettings get org.binaee.assistant url-code |  awk -F "'" '{printf $2}' ) #get url code *(update automatically in ph_download.sh)
 
 wget  -qO- --show-progress -U 'Mozilla/5.0'  --header="Cookie: $cookie" --post-data="q=$WORD&utrans=$TRANSLATE" $url_add #get phrasebook from google
