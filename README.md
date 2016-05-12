@@ -3,8 +3,7 @@ For the time being assistant is only a translator assist in my daily reading cou
 It exercise google translate as it core side to traslate selected text, ask for better translation and if it's not already in the "phrase book" prompt for append in database.
 
 ## Installation
-1. Rename "AccountInfo_sample.sh" to "AccountInfo.sh" and update cookie value.
-	you can get your Google account cookie by sniff http request in your browser, in Firefox it can be done by press ctrl+shift+q. 
+1. Rename "AccountInfo_sample.sh" to "AccountInfo.sh" and replace your cookie value in it. For more info on how to get your google cookie value visit [Mozilla Network Monitor](https://developer.mozilla.org/en-US/docs/Tools/Network_Monitor) page.
 2. Compile Qt project
 3. Add Assistant to your start up list ( I guarantee that it will be a quiet boy :) )
 4. Create a shortcut for Script/Translate.sh. 

@@ -195,6 +195,9 @@ Window {
     function showNotif() {
         timeoutTimr.restart();
         show();
+        var currentDate = new Date();
+        var currentTime = currentDate.toLocaleString(Qt.locale(),"HH:mm:ss");
+        console.debug(currentTime+ " : " +timeoutTimr.interval);
         notif.requestActivate(); //notif.raise()
         inputBox.forceActiveFocus();
     }

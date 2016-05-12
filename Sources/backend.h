@@ -26,6 +26,7 @@ struct assistant_options{
 
 assistant_options loadOptions();
 
+int runCommand(char *command);
 int getIntCommand(char *command);
 QString getStrCommand(QString *command);
 

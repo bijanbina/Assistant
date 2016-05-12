@@ -6,6 +6,9 @@
 #include <QtCore/QObject>
 #include <QtDBus/QtDBus>
 
+#define PH_UPDATE_INTERVAL 30 //in minutes
+#define PH_UPDATE_OUTDATED 8 //in hours
+
 
 class Channel : public QObject
 {

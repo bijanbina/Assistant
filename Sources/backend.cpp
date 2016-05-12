@@ -2,6 +2,11 @@
 
 assistant_options option;
 
+int runCommand(char *command)
+{
+//
+}
+
 int getIntCommand(char *command)
 {
     FILE *fp;
@@ -99,7 +104,7 @@ void startTranslate(QObject *item,QString word)
     if (translate.isEmpty())
     {
         translate = getTranslateOnline(word);
-        option.currentLanguage = getIntCommand(ASSISTANT_PATH"Scripts/phrasebook");
+        option.currentLanguage = getIntCommand(ASSISTANT_PATH"Scripts/getLanguage");
         getIntCommand("setxkbmap ir");
         formMethod = "expandForm";
 
@@ -147,7 +152,7 @@ void askWord(QObject *item)
 {
     QString context, title;
 
-    option.currentLanguage = getIntCommand(ASSISTANT_PATH"Scripts/phrasebook");
+    option.currentLanguage = getIntCommand(ASSISTANT_PATH"Scripts/getLanguage");
     getIntCommand("setxkbmap -option grp:alt_shift_toggle us,ir");
 
     title = "Translate";

@@ -32,6 +32,8 @@ void Channel::ConnectDBus()
 
     if(!session.registerService(COM_NAME)) {
         qFatal("Another session is on DBus.");
+        // This cannot be automatic because killing assistant also kill
+        // this instant too
         return;
     }
 }
@@ -59,18 +61,21 @@ void Channel::translateDirect()
 
 void Channel::startServer()
 {
+    //set time
     phChecker = new QTimer;
     QObject::connect(phChecker,SIGNAL(timeout()),this,SLOT(checkPhraseBook()));
-    phChecker->start(3600000);
+
+    //check PH and start Timer
+    checkPhraseBook();
 }
 
 //check for phrasebook if its already outdated
 void Channel::checkPhraseBook()
 {
     QFileInfo *phInfo = new QFileInfo(ASSISTANT_PATH"Scripts/phrasebook");
-    phChecker->start(3600000);
+    phChecker->start(PH_UPDATE_INTERVAL * 60 * 1000);
     QDateTime now = QDateTime::currentDateTime();
-    if (now.toTime_t() - phInfo->created().toTime_t() > 28800)
+    if (now.toTime_t() - phInfo->created().toTime_t() > PH_UPDATE_OUTDATED * 3600)
     {
         qDebug() << "Upgrade Now Going";
         getIntCommand(ASSISTANT_PATH"Scripts/ph_download.sh");
