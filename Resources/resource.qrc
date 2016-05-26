@@ -1,8 +1,7 @@
 <RCC>
     <qresource prefix="/">
-        <file alias="main.qml">../UI/main.qml</file>
-        <file alias="notification.qml">../UI/notification.qml</file>
         <file>GIcon48.png</file>
         <file>window-close.png</file>
+        <file alias="notification.qml">../UI/notification.qml</file>
     </qresource>
 </RCC>

@@ -4,7 +4,7 @@ if [ -n "$assistant_pid" ]; then
 	echo "good"
 else
 	/home/bijan/Project/Assistant/Sources/Assistant &
-	sleep 0.5
+	sleep 0.3
 fi
 
 

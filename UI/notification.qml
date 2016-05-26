@@ -183,23 +183,48 @@ Window {
         repeat: false;
         onTriggered: {
             notif.hide();
-            notifExit()
+            notifExit();
+            writeDebug("Triggered hide by timer");
         }
     }
-
-    onActiveChanged: if (!active) {
-                         notifExit()
-                         hide()
+    //  && (timeoutTimr.interval < 15000)
+    onActiveChanged: if (!active)
+                     {
+                         var elapsedTime = new Date().getTime() - startTime;
+                         if ( elapsedTime > 300 )
+                         {
+                             notifExit()
+                             hide();
+                             timeoutTimr.stop()
+                             writeDebug("Triggered hide by activeChange");
+                             writeDebug("Triggered timer elapsed time is " + elapsedTime);
+                         }
+                         else
+                         {
+                             writeDebug("Bug! elapsed time is " + elapsedTime);
+                         }
                      }
 
     function showNotif() {
+        //update screen
+        x = x_base + (Screen.width - width) / 2;
+        y = y_base + 32;
+
         timeoutTimr.restart();
+        startTime = new Date().getTime()
         show();
-        var currentDate = new Date();
-        var currentTime = currentDate.toLocaleString(Qt.locale(),"HH:mm:ss");
-        console.debug(currentTime+ " : " +timeoutTimr.interval);
+        writeDebug(timeoutTimr.interval);
         notif.requestActivate(); //notif.raise()
         inputBox.forceActiveFocus();
+    }
+
+    function writeDebug(Message) {
+        if (debugEnabled)
+        {
+            var currentDate = new Date();
+            var currentTime = currentDate.toLocaleString(Qt.locale(),"HH:mm:ss");
+            console.debug(currentTime+ ": " + Message);
+        }
     }
 
     function normalForm() {
@@ -257,6 +282,11 @@ Window {
     property string context: 'text' //this value get updated on start (in c sources)
     property string title: 'title' //this value get updated on start (in c sources)
     property string description: '(this word is not in \"phrasebook\")' //this value get updated on start (in c sources)
+
+    //consts
+    property bool debugEnabled: true
+    property double startTime: 0
+
     visible: false
 }
 

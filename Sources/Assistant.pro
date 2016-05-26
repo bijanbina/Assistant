@@ -12,7 +12,7 @@ RESOURCES += ../Resources/resource.qrc
 QML_IMPORT_PATH =
 
 DISTFILES += \
-    ../UI/main.qml
+    ../UI/notification.qml
 
 INCLUDEPATH +=  \
     /usr/include/glib-2.0 \
