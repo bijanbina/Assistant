@@ -140,12 +140,25 @@ QString getTranslateStrict(QString word)
 
 QString getTranslate(QString word)
 {
+    QString translate;
+
+    //find statement end with `word`
     QString command = "grep -i \"";
     command.append(word);
     command.append(" \" ");
     command.append(ASSISTANT_PATH"Scripts/phrasebook");
     command.append(" | awk -F \" , \" '{print $2}'");
-    return getStrCommand(command);// constrain
+    translate = getStrCommand(command);
+    if (!translate.isEmpty())
+        return translate;
+
+    //find `word` in any place statement
+    command = "grep -i \"";
+    command.append(word);
+    command.append("\" ");
+    command.append(ASSISTANT_PATH"Scripts/phrasebook");
+    command.append(" | awk -F \" , \" '{print $2}'");
+    return getStrCommand(command);
 }
 
 void askWord(QObject *item)
@@ -165,12 +178,25 @@ void askWord(QObject *item)
 
 QString getDiscovedWord(QString word)
 {
+    QString translate;
+
+    //find statement end with `word`
     QString command = "grep -i \"";
     command.append(word);
     command.append(" \" ");
     command.append(ASSISTANT_PATH"Scripts/phrasebook");
     command.append(" | awk -F \" , \" '{print $1}'");
-    return getStrCommand(command);// constrain
+    translate = getStrCommand(command);
+    if (!translate.isEmpty())
+        return translate;
+
+    //find `word` in any place statement
+    command = "grep -i \"";
+    command.append(word);
+    command.append("\" ");
+    command.append(ASSISTANT_PATH"Scripts/phrasebook");
+    command.append(" | awk -F \" , \" '{print $1}'");
+    return getStrCommand(command);
 }
 
 
