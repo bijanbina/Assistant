@@ -1,4 +1,5 @@
 #include "channel.h"
+#include <unistd.h>
 
 Channel::Channel(QObject *ui,QObject *parent) : QObject(parent)
 {
@@ -78,7 +79,7 @@ void Channel::checkPhraseBook()
     if (now.toTime_t() - phInfo->created().toTime_t() > PH_UPDATE_OUTDATED * 3600)
     {
         qDebug() << "Upgrade Now Going";
-        getIntCommand(ASSISTANT_PATH"Scripts/ph_download.sh");
+        system(ASSISTANT_PATH"Scripts/ph_download.sh &");
     }
 }
 

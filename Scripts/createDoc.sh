@@ -1,6 +1,6 @@
 #/bin/sh
 line_num=`cat phrasebook | wc -l`
-echo $line_num
+#echo $line_num
 line_fa=""
 line_en=""
 page_num=1
@@ -41,13 +41,15 @@ while [[ "$line_num" -gt "100" ]]; do
 	echo "</g></svg>" >> $page_num.svg
 	inkscape $page_num.svg --export-pdf=$page_num.pdf
 	page_num=$((page_num+1))
-	#echo $page_num
-	echo $line_num
+	echo $page_num
+	#echo $line_num
 done
 pdf_arg=""
+page_num=$((page_num-1))
 while [[ "$page_num" -gt "0" ]]; do
 	pdf_arg="$pdf_arg"" $page_num.pdf"
 	page_num=$((page_num-1))
 done
-pdf_arg="$pdf_arg"" $output.pdf"
+pdf_arg="$pdf_arg"" output.pdf"
 echo	$pdf_arg
+pdfunite $pdf_arg
