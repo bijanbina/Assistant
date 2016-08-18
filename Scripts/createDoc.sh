@@ -40,8 +40,9 @@ while [[ "$line_num" -gt "100" ]]; do
 	done
 	echo "</g></svg>" >> $page_num.svg
 	inkscape $page_num.svg --export-pdf=$page_num.pdf
-	page_num=$((page_num+1))
+	rm $page_num.svg
 	echo $page_num
+	page_num=$((page_num+1))
 	#echo $line_num
 done
 pdf_arg=""
@@ -50,6 +51,7 @@ while [[ "$page_num" -gt "0" ]]; do
 	pdf_arg="$pdf_arg"" $page_num.pdf"
 	page_num=$((page_num-1))
 done
-pdf_arg="$pdf_arg"" output.pdf"
-echo	$pdf_arg
-pdfunite $pdf_arg
+#pdf_arg="$pdf_arg"" output.pdf"
+#echo	$pdf_arg
+pdfunite $pdf_arg output.pdf
+rm $pdf_arg
