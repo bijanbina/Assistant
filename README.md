@@ -5,8 +5,7 @@ It exercise google translate as it core side to traslate selected text, ask for 
 ## Installation
 1. Rename "AccountInfo_sample.sh" to "AccountInfo.sh" and replace your cookie value in it. For more info on how to get your google cookie value visit [Mozilla Network Monitor](https://developer.mozilla.org/en-US/docs/Tools/Network_Monitor) page.
 2. Compile Qt project
-3. Add Assistant to your start up list ( I guarantee that it will be a quiet boy :) )
-4. Create a shortcut for Script/Translate.sh. 
+3. Create a shortcut for Script/Translate.sh. 
 
 	if you like to map it to your mouse button first create xbind configuration file by
 	`xbindkeys --defaults > ~/.xbindkeysrc`
@@ -29,6 +28,11 @@ It exercise google translate as it core side to traslate selected text, ask for 
 	```
 6. Enjoy
 
+# Dependecies
+All dependencies on Arch Linux can installed by running
+```
+sudo pacman -S qt5-base qt5-declarative qt5-quickcontrols dconf-editor sed
+```
 
 ## Acknowledgments
 Assistant used following library and tools, I just want to mention that this conquer can't achieved without their affords.

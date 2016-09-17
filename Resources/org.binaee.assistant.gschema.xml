@@ -11,14 +11,14 @@
  
     <key type="b" name="restrict-search">
       <default>false</default>
-      <summary>Enable something</summary>
-      <description>Enables something important in the application</description>
+      <summary>Restrict Search</summary>
+      <description>Match valuse must wrap the whole world</description>
     </key>
     <key type="i" name="timeout">
         <range min="0" max="999999"/>
-        <default>1</default>
-        <summary>Some timeout</summary>
-        <description>Something will happed after that period</description>
+        <default>10000</default>
+        <summary>Notification timeout</summary>
+        <description>Notification hide after time elapsed</description>
     </key>
  
     <key name="list-of-numbers" type="ai">
