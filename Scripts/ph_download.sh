@@ -6,7 +6,7 @@ source ../AccountInfo.sh 	#load account info
 
 #parse phrasebook url
 wget  -q --show-progress -U 'Mozilla/5.0'  --header="Cookie: $cookie" -O "translatePage" "https://translate.google.com" #get phrasebook from google
-sed -i'' "s/;/\n/g" translatePage
+sed -i'' "s/;/\n/g" translatePage #-i: edit in-place files
 url=$( grep USAGE translatePage |  awk -F "'" '{printf $2}' )
 gsettings set org.binaee.assistant url-code "$url"	#update url code
 
