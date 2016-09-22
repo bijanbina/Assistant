@@ -13,13 +13,12 @@ GAPS=`cat cooky_login | grep GAPS | awk '{ print $7 }'`
 # after 1awk  :   iOcAO2QwRpg
 #echo $gxf
 #echo "Email=$1"  "Passwd=$2"
-curl -c cooks 'https://accounts.google.com/signin/challenge/sl/password'  -H 'User-Agent: Mozilla/5.0' -H "Cookie: GAPS=$GAPS" --data 'Page=PasswordSeparationSignIn' --data-urlencode "gxf=$gxf" --data-urlencode "Email=$1" --data-urlencode "Passwd=$2">text
-curl -b cooks -H 'User-Agent: Mozilla/5.0' "https://translate.google.com" > translatePage
-sed -i'' "s/;/\n/g" translatePage #-i: edit in-place files
-url=$( grep USAGE translatePage |  awk -F "'" '{printf $2}' )
-curl -b cooks -H 'User-Agent: Mozilla/5.0' "https://translate.google.com/translate_a/sg?client=t&cm=g&hl=en&xt=$url" > phrasebookv0 #get phrasebook from google
-sed "s/;/\n/g" phrasebookv0 > phrasebookv1
-sed "s/],\[/\n/g" phrasebookv0 > phrasebookv1
-sed -i'' -e "s:\[.*\[::g" -e "s:].*]::g" phrasebookv1 #remove header & footer
-sed -i'' "s:\"::g" phrasebookv1 		#remove quotations
-awk -F "," '{print $4,",",$5}' phrasebookv1 > phrasebookv2 #strip down to word and meaning
+curl -c cooky_login 'https://accounts.google.com/signin/challenge/sl/password'  -H 'User-Agent: Mozilla/5.0' -H "Cookie: GAPS=$GAPS" --data 'Page=PasswordSeparationSignIn' --data-urlencode "gxf=$gxf" --data-urlencode "Email=$1" --data-urlencode "Passwd=$2">/dev/null
+SID=`cat cooky_login |  grep -P '\tSID' | awk '{ print $7 }'`
+HSID=`cat cooky_login | grep HSID | awk '{ print $7 }'`
+SSID=`cat cooky_login | grep SSID | awk '{ print $7 }'`
+
+
+COOKIE_TEXT="cookie=\"SID=$SID; HSID=$HSID; SSID=$SSID;\""
+echo $COOKIE_TEXT > ../AccountInfo.sh
+rm cooky_login

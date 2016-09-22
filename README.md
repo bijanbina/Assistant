@@ -3,7 +3,13 @@ For the time being assistant is only a translator assist in my daily reading cou
 It exercise google translate as it core side to traslate selected text, ask for better translation and if it's not already in the "phrase book" prompt for append in database.
 
 ## Installation
-1. Rename "AccountInfo_sample.sh" to "AccountInfo.sh" and replace your cookie value in it. For more info on how to get your google cookie value visit [Mozilla Network Monitor](https://developer.mozilla.org/en-US/docs/Tools/Network_Monitor) page.
+1. Create "AccountInfo.sh" (Google Login Cookies) by running
+
+```
+createLogin.sh <email> <password>
+```
+inside Scripts folder. As an example `./createLogin.sh 'lolo@gmail.com' 'lolo_as_password'`
+
 2. Compile Qt project
 3. Create a shortcut for Script/Translate.sh. 
 
