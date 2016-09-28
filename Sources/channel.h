@@ -5,6 +5,8 @@
 #include <QObject>
 #include <QtCore/QObject>
 #include <QtDBus/QtDBus>
+#include "QThread"
+#include "engine.h"
 
 #define PH_UPDATE_INTERVAL 30 //in minutes
 #define PH_UPDATE_OUTDATED 8 //in hours
@@ -30,12 +32,16 @@ public slots:
     void writeAccepted(QString title, QString word);
     void notifExit();
 
+    void translateOnlineReady();
+
 private:
     void ConnectDBus();
 
-    QObject *root;
-    QTimer  *phChecker; //phrase checker
-    bool    isDirectLoad;
+    QObject  *root;
+    QTimer   *phChecker; //phrase checker
+    bool      isDirectLoad;
+    Engine   *translateEngine;
+    assistant_options option;
 };
 
 

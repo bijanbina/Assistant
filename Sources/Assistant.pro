@@ -4,7 +4,8 @@ QT += qml quick widgets dbus
 
 SOURCES += main.cpp \
     backend.cpp \
-    channel.cpp
+    channel.cpp \
+    engine.cpp
 
 RESOURCES += ../Resources/resource.qrc
 
@@ -27,6 +28,7 @@ QMAKE_CXXFLAGS += -pthread
 
 HEADERS += \
     backend.h \
-    channel.h
+    channel.h \
+    engine.h
 
 CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT

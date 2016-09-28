@@ -24,7 +24,7 @@ struct assistant_options{
 } ;
 
 
-assistant_options loadOptions();
+void loadOptions();
 
 int runCommand(char *command);
 int getIntCommand(char *command);
@@ -34,7 +34,6 @@ screen_pos getPrimaryScreen();
 void changeLaguageBack();
 
 void updateScreenInfo(QObject *item);
-void startTranslate(QObject *item, QString word);
 void showNotif(QObject *item);
 
 QString getTranslate(QString word);

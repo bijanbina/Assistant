@@ -59,6 +59,34 @@ QString getStrCommand(QString command)
     return returnData;
 }
 
+//This function use a seprated thread
+QString get_translation_thread(QString command)
+{
+    FILE *fp;
+    QString returnData;
+
+    char path[1035];
+
+    /* Open the command for reading. */
+    fp = popen(command.toStdString().c_str(), "r");
+
+    if (fp == NULL) {
+      printf("Failed to run command\n" );
+      return returnData;
+    }
+
+    /* Read the output a line at a time - output it. */
+    while (fgets(path, sizeof(path)-1, fp) != NULL) {
+      returnData = QString(path);
+    }
+
+    returnData.remove('\n');
+
+    /* close */
+    pclose(fp);
+    return returnData;
+}
+
 screen_pos getPrimaryScreen()
 {
     FILE *fp;
@@ -77,7 +105,7 @@ void updateScreenInfo(QObject *item)
     QQmlProperty::write(item, "y_base", PrimaryScreen.y);
 }
 
-assistant_options loadOptions()
+void loadOptions()
 {
     GSettings *setting;
     setting = g_settings_new (ORG_NAME);
@@ -85,34 +113,6 @@ assistant_options loadOptions()
     option.timeout = g_settings_get_int(setting,"timeout");
     qDebug() << "restrict-search is " << option.strictLoad;
     qDebug() << "timeout is " << option.timeout;
-}
-
-
-void startTranslate(QObject *item,QString word)
-{
-    QString translate, title;
-    QString formMethod = "normalForm";
-
-    translate = getTranslateStrict(word);
-    title = word;
-    if (translate.isEmpty() && !(option.strictLoad))
-    {
-        translate = getTranslate(word);
-        if (!translate.isEmpty())
-            title = getDiscovedWord(word);
-    }
-    if (translate.isEmpty())
-    {
-        translate = getTranslateOnline(word);
-        option.currentLanguage = getIntCommand(ASSISTANT_PATH"Scripts/getLanguage");
-        getIntCommand("setxkbmap ir");
-        formMethod = "expandForm";
-
-    }
-    QMetaObject::invokeMethod(item, formMethod.toStdString().c_str()); //show warning to
-    QQmlProperty::write(item, "title", title);
-    QQmlProperty::write(item, "context", translate);
-    QQmlProperty::write(item, "timeout", option.timeout );
 }
 
 QString getTranslateStrict(QString word)
@@ -199,7 +199,6 @@ QString getDiscovedWord(QString word)
     return getStrCommand(command);
 }
 
-
 QString getTranslateOnline(QString word)
 {
     QString command = "wget -T 5 -U \"Mozilla/5.0\" -qO - \"http://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=fa&dt=t&q=";
@@ -224,6 +223,7 @@ QString addPhraseBook(QString word, QString translate)
     command.append("\"");
     return getStrCommand(command);// constrain
 }
+
 void changeLaguageBack()
 {
     if ( option.currentLanguage == 0 )

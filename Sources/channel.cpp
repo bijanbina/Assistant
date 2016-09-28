@@ -1,10 +1,18 @@
 #include "channel.h"
 #include <unistd.h>
 
+
 Channel::Channel(QObject *ui,QObject *parent) : QObject(parent)
 {
     ConnectDBus();
     root = ui;
+
+    GSettings *setting;
+    setting = g_settings_new (ORG_NAME);
+    option.strictLoad = g_settings_get_boolean (setting,"restrict-search");
+    option.timeout = g_settings_get_int(setting,"timeout");
+    qDebug() << "restrict-search is " << option.strictLoad;
+    qDebug() << "timeout is " << option.timeout;
 }
 
 
@@ -42,13 +50,34 @@ void Channel::ConnectDBus()
 void Channel::translate(const QString &text)
 {
     QString word = text;
+    option.currentLanguage = getIntCommand(ASSISTANT_PATH"Scripts/getLanguage");
+    updateScreenInfo(root);
+    QString formMethod = "normalForm";
+    QString translate;
 
     isDirectLoad = false;
 
-    //qDebug() << "request received" << text;
-    updateScreenInfo(root);
-    startTranslate(root,word);
+    translate = getTranslateStrict(word);
+    if (translate.isEmpty() && !(option.strictLoad))
+    {
+        translate = getTranslate(word);
+        if (!translate.isEmpty())
+            word = getDiscovedWord(word);
+    }
+    if (translate.isEmpty()) //lets get online
+    {
+        translateEngine = new Engine(word);
+        translateEngine->start();
+        connect(translateEngine,SIGNAL(finished()),this,SLOT(translateOnlineReady()));
+        formMethod = "expandForm";
+        getIntCommand("setxkbmap ir");
+    }
+    QMetaObject::invokeMethod(root, formMethod.toStdString().c_str()); //show warning to
+    QQmlProperty::write(root, "title", word);
+    QQmlProperty::write(root, "timeout", option.timeout );
+    QQmlProperty::write(root, "context", "");
     showNotif(root);
+
 }
 
 void Channel::translateDirect()
@@ -58,6 +87,12 @@ void Channel::translateDirect()
     updateScreenInfo(root);
     askWord(root);
     showNotif(root);
+}
+
+void Channel::translateOnlineReady()
+{
+    QQmlProperty::write(root, "context", translateEngine->translate);
+    delete translateEngine;
 }
 
 void Channel::startServer()
@@ -85,7 +120,7 @@ void Channel::checkPhraseBook()
 
 void Channel::writeAccepted(QString title, QString word)
 {
-    if ( isDirectLoad )
+    if ( isDirectLoad )//if input is from asking words
     {
         translate(word);
     }
