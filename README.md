@@ -51,4 +51,6 @@ Assistant used following library and tools, I just want to mention that this con
 - xrandr
 - D-Bus
 - GSetting
+- Inkscape
+- pdfunite
 - [webupd8](http://www.webupd8.org/2016/03/translate-any-text-you-select-on-your.html)
