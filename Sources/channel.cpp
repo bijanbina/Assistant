@@ -64,6 +64,10 @@ void Channel::translate(const QString &text)
         if (!translate.isEmpty())
             word = getDiscovedWord(word);
     }
+    QMetaObject::invokeMethod(root, formMethod.toStdString().c_str()); //show warning to
+    QQmlProperty::write(root, "title", word);
+    QQmlProperty::write(root, "timeout", option.timeout );
+    QQmlProperty::write(root, "context", "");
     if (translate.isEmpty()) //lets get online
     {
         translateEngine = new Engine(word);
@@ -72,10 +76,10 @@ void Channel::translate(const QString &text)
         formMethod = "expandForm";
         getIntCommand("setxkbmap ir");
     }
-    QMetaObject::invokeMethod(root, formMethod.toStdString().c_str()); //show warning to
-    QQmlProperty::write(root, "title", word);
-    QQmlProperty::write(root, "timeout", option.timeout );
-    QQmlProperty::write(root, "context", "");
+    else
+    {
+        QQmlProperty::write(root, "context", translate);
+    }
     showNotif(root);
 
 }
