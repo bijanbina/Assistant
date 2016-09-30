@@ -52,7 +52,6 @@ void Channel::translate(const QString &text)
     QString word = text;
     option.currentLanguage = getIntCommand(ASSISTANT_PATH"Scripts/getLanguage");
     updateScreenInfo(root);
-    QString formMethod = "normalForm";
     QString translate;
 
     isDirectLoad = false;
@@ -64,22 +63,21 @@ void Channel::translate(const QString &text)
         if (!translate.isEmpty())
             word = getDiscovedWord(word);
     }
-    QMetaObject::invokeMethod(root, formMethod.toStdString().c_str()); //show warning to
-    QQmlProperty::write(root, "title", word);
-    QQmlProperty::write(root, "timeout", option.timeout );
-    QQmlProperty::write(root, "context", "");
     if (translate.isEmpty()) //lets get online
     {
         translateEngine = new Engine(word);
         translateEngine->start();
         connect(translateEngine,SIGNAL(finished()),this,SLOT(translateOnlineReady()));
-        formMethod = "expandForm";
         getIntCommand("setxkbmap ir");
+        QMetaObject::invokeMethod(root, "expandForm"); //show warning to
     }
     else
     {
+        QMetaObject::invokeMethod(root, "normalForm"); //show warning to
         QQmlProperty::write(root, "context", translate);
     }
+    QQmlProperty::write(root, "title", word);
+    QQmlProperty::write(root, "timeout", option.timeout );
     showNotif(root);
 
 }
