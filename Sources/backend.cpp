@@ -216,8 +216,10 @@ void showNotif(QObject *item)
 QString addPhraseBook(QString word, QString translate)
 {
     changeLaguageBack();
-    QString command = ASSISTANT_PATH"Scripts/ph_add.sh ";
+    QString command = ASSISTANT_PATH"Scripts/ph_add.sh";
+    command.append(" \"");
     command.append(word);
+    command.append("\"");
     command.append(" \"");
     command.append(translate);
     command.append("\"");
