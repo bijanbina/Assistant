@@ -56,6 +56,7 @@ int main(int argc, char *argv[])
 
     QObject::connect(root, SIGNAL(addPhSignal(QString , QString)), dbusChnl, SLOT(writeAccepted(QString , QString)));
     QObject::connect(root, SIGNAL(notifExit()), dbusChnl, SLOT(notifExit()));
+    QObject::connect(root, SIGNAL(notifClicked()), dbusChnl, SLOT(notifClicked()));
 
 
     loadOptions();

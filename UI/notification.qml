@@ -21,6 +21,7 @@ Window {
         border.width: 1
         MouseArea{
             anchors.fill: parent
+            onClicked: notifClicked()
         }
         Image
         {
@@ -270,6 +271,7 @@ Window {
     //Signals:
     signal addPhSignal(string title,string word)
     signal notifExit()
+    signal notifClicked()
 
     //Property
 

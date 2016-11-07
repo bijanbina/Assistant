@@ -31,17 +31,20 @@ public slots:
     void checkPhraseBook();
     void writeAccepted(QString title, QString word);
     void notifExit();
+    void notifClicked();
 
     void translateOnlineReady();
 
 private:
     void ConnectDBus();
 
+    QString   req_word; //requested word
     QObject  *root;
     QTimer   *phChecker; //phrase checker
     bool      isDirectLoad;
     Engine   *translateEngine;
     assistant_options option;
+
 };
 
 

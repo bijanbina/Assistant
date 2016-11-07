@@ -201,10 +201,10 @@ QString getDiscovedWord(QString word)
 
 QString getTranslateOnline(QString word)
 {
-    QString command = "wget -T 5 -U \"Mozilla/5.0\" -qO - \"http://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=fa&dt=t&q=";
+    QString command = "wget -T 10 -U \"Mozilla/5.0\" -qO - \"http://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=fa&dt=t&q=";
     command.append(word);
     command.append(" \" | sed  -e \"s:\\[.*\\[::g\" -e \"s:].*]::g\" -e \"s:\\\"::g\"  | awk -F',' '{print $1}'");
-    qDebug() << "hi";
+    //qDebug() << "rinning command " << command;
     return getStrCommand(command);// constrain
 }
 

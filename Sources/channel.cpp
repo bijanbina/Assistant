@@ -50,6 +50,7 @@ void Channel::ConnectDBus()
 void Channel::translate(const QString &text)
 {
     QString word = text;
+    req_word = text;
     option.currentLanguage = getIntCommand(ASSISTANT_PATH"Scripts/getLanguage");
     updateScreenInfo(root);
     QString translate;
@@ -132,6 +133,32 @@ void Channel::writeAccepted(QString title, QString word)
         qDebug() << "writeAccepted";
         addPhraseBook(title, word);
     }
+}
+
+//Force strict option
+//if clicked on notification
+void Channel::notifClicked()
+{
+    QString translate;
+
+    isDirectLoad = false;
+
+    translate = getTranslateStrict(req_word);
+    if (translate.isEmpty()) //lets get online
+    {
+        translateEngine = new Engine(req_word);
+        translateEngine->start();
+        connect(translateEngine,SIGNAL(finished()),this,SLOT(translateOnlineReady()));
+        getIntCommand("setxkbmap ir");
+        QMetaObject::invokeMethod(root, "expandForm"); //show warning to
+    }
+    else
+    {
+        QMetaObject::invokeMethod(root, "normalForm"); //show warning to
+        QQmlProperty::write(root, "context", translate);
+    }
+    QQmlProperty::write(root, "title", req_word);
+    QQmlProperty::write(root, "timeout", option.timeout );
 }
 
 void Channel::notifExit()
