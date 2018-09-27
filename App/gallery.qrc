@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/">
+        <file>fonts/OpenSans-Regular.ttf</file>
+        <file>images/background-light.png</file>
+        <file>images/background.png</file>
+        <file>images/center-light.png</file>
+        <file>images/center.png</file>
+        <file>images/icon-go.png</file>
+        <file>images/icon-settings.png</file>
+        <file>images/info.png</file>
+        <file>images/needle-light.png</file>
+        <file>images/needle.png</file>
+        <file>images/qt-logo.png</file>
+        <file>images/zoom_in.png</file>
+        <file>images/zoom_out.png</file>
+        <file>qml/gallery.qml</file>
+        <file>images/icon-back.png</file>
+        <file>qml/BlackButtonStyle.qml</file>
+        <file>qml/BlackButtonBackground.qml</file>
+        <file>phrasebook</file>
+    </qresource>
+</RCC>
