@@ -17,6 +17,8 @@
         <file>images/icon-back.png</file>
         <file>qml/BlackButtonStyle.qml</file>
         <file>qml/BlackButtonBackground.qml</file>
-        <file>phrasebook</file>
+        <file>../Scripts/phrasebook</file>
+        <file>fonts/GiddyupStd.otf</file>
+        <file>fonts/fasolid.ttf</file>
     </qresource>
 </RCC>

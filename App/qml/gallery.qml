@@ -57,13 +57,14 @@ import QtQuick.Extras 1.4
 import QtQuick.Layouts 1.0
 import QtQuick.Window 2.1
 import Qt.labs.settings 1.0
+import QtMultimedia 5.5
 
 Window {
     id: root
     objectName: "window"
     visible: true
-    width: 480
-    height: 600
+    width: 400
+    height: 570
 
     color: "#161616"
     title: "Qt Quick Extras Demo"
@@ -83,6 +84,8 @@ Window {
     property string word1 : "word1"
     property string word2 : "word2"
     property int index_val : 1
+    property int index_m : 1
+
 
     Text
     {
@@ -93,6 +96,19 @@ Window {
     {
         id: openSans
         source: "qrc:/fonts/OpenSans-Regular.ttf"
+    }
+
+    FontLoader
+    {
+        id: fontAwesome
+        source: "qrc:/fonts/fasolid.ttf"
+    }
+
+    Audio
+    {
+        id: playMusic
+        //source: "file:///home/bijan/Project/Assistant/Scripts/MP3/test.mp3"
+        onStopped: list_el.get(index_m-1).sColor = "#bbb"
     }
 
 
@@ -110,32 +126,30 @@ Window {
             model: ListModel
             {
                 id: list_el
-                /*ListElement
-                {
-                    word: "CircularGauge"
-                    translate: "Translate"
-                    highlight: false
-                }*/
             }
 
-            delegate: Button
+            delegate: BlackButtonBackground
             {
-                width: parent.width
+                width: root.width
                 height: root.height * 0.125
-                text: word
+                word_left: word
+                word_right: translate
 
-                style: BlackButtonStyle {
-                    fontColor: root.darkFontColor
-                    text2: translate
-                    isHighlighted: highlight
+                fontColor: root.darkFontColor
+                isHighlighted: highlight
+                soundColor: sColor
+                onMouseOnSound:
+                {
+                    sayWord(index_i)
                 }
 
-                onClicked: {
+                onClickedMe: {
                         // Only push the control view if we haven't already pushed it...
                         //addList()
                         changecl(index_i);
                         //forceView(3000)
-                    }
+                }
+
              }
              Keys.onPressed: {
                 if (event.key == Qt.Key_Up) {
@@ -155,7 +169,11 @@ Window {
              focus: true
 
              onContentYChanged: updatePage(Math.round(lsview.contentY/(root.height * 0.125)))
-             onContentHeightChanged: {lsview.contentY = (settings.ls_cony)*100.0}
+             //onContentHeightChanged: {lsview.contentY = (settings.ls_cony)*100.0}
+             onWidthChanged: {
+                 lsview.contentY = (settings.ls_cony)*100.0;
+                 //updatePage(Math.round((settings.ls_cony)*100.0/(root.height * 0.125)));
+             }
         }
     }
 
@@ -172,6 +190,7 @@ Window {
             width: root.width/2
             anchors.verticalCenter: parent.verticalCenter
             text : "hi"//settings.ls_cony
+            font.pixelSize: root.height/40
             color: "#ccc"
         }
         Rectangle
@@ -231,12 +250,14 @@ Window {
         if (settings.card_highlight[index_val-1] == 'f' )
         {
             list_el.append({"index_i" : index_val , "word" : word1,
-                           "translate" : word2, "highlight" : false});
+                           "translate" : word2, "highlight" : false,
+                           "sColor" : "#bbb"});
         }
         else
         {
             list_el.append({"index_i" : index_val , "word" : word1,
-                           "translate" : word2, "highlight" : true});
+                           "translate" : word2, "highlight" : true,
+                           "sColor" : "#bbb"});
         }
     }
 
@@ -251,6 +272,14 @@ Window {
         {
             settings.card_highlight = settings.card_highlight.substr(0, ind-1) + 'f' + settings.card_highlight.substr(ind);
         }
+    }
+
+    function sayWord(ind)
+    {
+        list_el.get(ind-1).sColor = "#2aba89"
+        playMusic.source = "file:///home/bijan/Project/Assistant/Scripts/MP3/" + list_el.get(ind-1).word + ".mp3"
+        playMusic.play()
+        index_m = ind;
     }
 
     function forceView(ind)
@@ -293,7 +322,7 @@ Window {
     {
         status.text = contenty + " / " +
                 Math.round((lsview.contentHeight/(root.height * 0.125))-8) +
-                "\nV0.4 By Bij 4 Beh - Settings: " + settings.ls_cony;
+                "\nV0.5 - Settings: " + settings.ls_cony;
     }
 
 

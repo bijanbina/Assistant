@@ -54,9 +54,11 @@ import QtQuick.Controls.Styles 1.1
 
 ButtonStyle {
     property color fontColor
-    property bool isHighlighted
+    property string soundColor : "#bbb"
 
     property string text2
+
+    signal mouseOnSound()
 
     function changecl()
     {
@@ -69,47 +71,6 @@ ButtonStyle {
         hilight: isHighlighted
     }
     label: Item {
-        implicitWidth: row.implicitWidth
-        implicitHeight: row.implicitHeight
-        baselineOffset: row.y + text.y + text.baselineOffset
 
-        Row {
-            id: row
-            anchors.left: control.text.length === 0 ? undefined : parent.left
-            anchors.leftMargin: control.text.length === 0 ? 0 : textSingleton.implicitHeight
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.horizontalCenter: control.text.length === 0 ? parent.horizontalCenter : undefined
-
-            Image {
-                source: control.iconSource
-                width: Math.min(sourceSize.width, height)
-                height: text.implicitHeight
-                fillMode: Image.PreserveAspectFit
-            }
-            Text {
-                id: text
-                text: control.text
-                color: fontColor
-                font.pixelSize: control.height * 0.2
-                font.family: openSans.name
-                horizontalAlignment: Text.AlignLeft
-                verticalAlignment: Text.AlignVCenter
-                anchors.verticalCenter: parent.verticalCenter
-            }
-        }
-        Text {
-            id: label_right
-            text: text2
-            color: fontColor
-            font.pixelSize: control.height * 0.2
-            font.family: openSans.name
-            anchors.right: parent.right
-            anchors.rightMargin: textSingleton.implicitHeight
-
-            verticalAlignment: Text.AlignVCenter
-            anchors.verticalCenter: parent.verticalCenter
-        }
-
-
-    }
+}
 }

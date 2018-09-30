@@ -54,11 +54,18 @@ import QtQuick.Controls.Styles 1.1
 
 Rectangle {
     property bool pressed: false
-    property bool hilight
+    property bool isHighlighted
+    property string word_left
+    property string word_right
+    property color fontColor
+    property string soundColor : "#bbb"
+    signal mouseOnSound()
+    signal clickedMe()
+    id: control
 
     gradient: Gradient {
         GradientStop {
-            color: if (hilight)
+            color: if (isHighlighted)
                    {
                         "#033"
                    }
@@ -77,7 +84,7 @@ Rectangle {
             position: 1
         }
     }
-    Rectangle {
+    /*Rectangle {
         height: 1
         width: parent.width
         anchors.top: parent.top
@@ -89,5 +96,81 @@ Rectangle {
         width: parent.width
         anchors.bottom: parent.bottom
         color: "#000"
+    }*/
+    implicitWidth: row.implicitWidth
+    implicitHeight: row.implicitHeight
+    baselineOffset: row.y + text.y + text.baselineOffset
+
+    Row {
+        id: row
+        anchors.left: parent.left
+        anchors.leftMargin: textSingleton.implicitHeight
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+
+        Text {
+            id: text
+            text: word_left
+            color: fontColor
+            font.pixelSize: control.height * 0.2
+            font.family: openSans.name
+            horizontalAlignment: Text.AlignLeft
+            verticalAlignment: Text.AlignVCenter
+            anchors.verticalCenter: parent.verticalCenter
+        }
     }
+    Text {
+        id: label_right
+        text: word_right
+        color: fontColor
+        font.pixelSize: control.height * 0.2
+        font.family: openSans.name
+        anchors.right: parent.right
+        anchors.rightMargin: textSingleton.implicitHeight
+
+        verticalAlignment: Text.AlignVCenter
+        anchors.verticalCenter: parent.verticalCenter
+    }
+
+    Rectangle
+    {
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        width: control.width * 0.15
+        height: control.height * 0.8
+        color: "#333"
+        Text {
+            id: label_center
+            text: "\uf028"
+            color: soundColor
+            font.pixelSize: control.height * 0.22
+            font.family: fontAwesome.name
+            font.weight: Font.Black
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            verticalAlignment: Text.AlignVCenter
+            anchors.verticalCenter: parent.verticalCenter
+        }
+        MouseArea
+        {
+            anchors.fill: parent
+            onClicked:{
+                mouseOnSound()
+            }
+        }
+        z:10
+    }
+
+
+    MouseArea
+    {
+        anchors.fill: parent
+        onClicked:{
+            clickedMe()
+        }
+    }
+
+
+
 }
+
