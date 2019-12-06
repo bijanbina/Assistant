@@ -308,8 +308,14 @@ Rectangle
     function sayWord(ind)
     {
         //list_el.get(ind-1).sColor = "#2aba89"
-        //playMusic.source = "file:///home/bijan/Project/Assistant/Scripts/MP3/" + list_el.get(ind-1).word + ".mp3"
-        playMusic.source = "file:///storage/emulated/0/BIC/MP3/" + list_el.get(ind-1).word + ".mp3"
+        if(pc_mode)
+        {
+            playMusic.source = "file:///home/bijan/Project/Assistant/Scripts/MP3/" + list_el.get(ind-1).word + ".mp3"
+        }
+        else
+        {
+            playMusic.source = "file:///storage/emulated/0/BIC/MP3/" + list_el.get(ind-1).word + ".mp3"
+        }
         playMusic.play()
         index_m = ind;
     }
@@ -317,8 +323,15 @@ Rectangle
     function sayWord_search(ind)
     {
         //list_el.get(ind-1).sColor = "#2aba89"
-        //playMusic.source = "file:///home/bijan/Project/Assistant/Scripts/MP3/" + list_search.get(ind-1).word + ".mp3"
-        playMusic.source = "file:///storage/emulated/0/BIC/MP3/" + list_search.get(ind-1).word + ".mp3"
+        if(pc_mode)
+        {
+            playMusic.source = "file:///home/bijan/Project/Assistant/Scripts/MP3/" + list_search.get(ind-1).word + ".mp3"
+        }
+        else
+        {
+            playMusic.source = "file:///storage/emulated/0/BIC/MP3/" + list_search.get(ind-1).word + ".mp3"
+        }
+
         playMusic.play()
         index_m = ind;
     }
@@ -349,6 +362,16 @@ Rectangle
     {
         search_view.visible = false
         lsview.visible = true
+    }
+
+    function pronStopped(index)
+    {
+        list_el.get(index-1).sColor = "#bbb"
+    }
+
+    function pronStoppedSearch(index)
+    {
+        list_search.get(index-1).sColor = "#bbb"
     }
 
     signal remove_highlight(string word)

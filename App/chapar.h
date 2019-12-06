@@ -35,7 +35,7 @@ private:
 
     QString buffer;
     QString txBuffer;
-    Highlight highlight_db;
+    Highlight *highlight_db;
 };
 
 #endif // CHAPAR_H

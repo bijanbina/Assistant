@@ -32,6 +32,8 @@ chapar::chapar(QObject *ui, QObject *parent) : QObject(parent)
     IE = true;
     multiPacket = false;
     txBuffer = "";
+    int pc_mode = QQmlProperty::read(root, "pc_mode").toInt();
+    highlight_db = new Highlight(pc_mode);
 }
 
 void chapar::start()
@@ -53,8 +55,15 @@ void chapar::updateData()
 {
     //qDebug() <<"start index:" << start_index << "end index" << end_index;
     //qDebug() <<"buffer:" << buffer;
-    //QFile inputFile("/storage/emulated/0/BIC/phrasebook");
-    QFile inputFile("/home/bijan/Project/Assistant/Scripts/phrasebook");
+    QFile inputFile;
+    if( highlight_db->pc_mode )
+    {
+        inputFile.setFileName("/home/bijan/Project/Assistant/Scripts/phrasebook");
+    }
+    else
+    {
+        inputFile.setFileName("/storage/emulated/0/BIC/phrasebook");
+    }
     //QFile inputFile(":/phrasebook");
     int i =0;
     if (inputFile.open(QIODevice::ReadOnly))
@@ -67,7 +76,7 @@ void chapar::updateData()
           int word_sep = line.indexOf(",");
           QString word1 = line.mid(0,word_sep-1);
           QString word2 = line.mid(word_sep+2);
-          bool isHighlight = highlight_db.isHighlight(word1 , i-1);
+          bool isHighlight = highlight_db->isHighlight(word1 , i-1);
           QQmlProperty::write(root, "word1", word1);
           QQmlProperty::write(root, "word2", word2);
           QQmlProperty::write(root, "index_val", i);
@@ -82,22 +91,22 @@ void chapar::updateData()
           }*/
        }
        inputFile.close();
-       QString highlight_string = highlight_db.getHighlightString();
+       QString highlight_string = highlight_db->getHighlightString();
        QQmlProperty::write(root, "highlight_string", highlight_string);
        QMetaObject::invokeMethod(root, "itemAdded");
-       highlight_db.saveHighlight();
+       highlight_db->saveHighlight();
 
     }
 }
 
 void chapar::removeHighlight(QString word)
 {
-    highlight_db.removeHighlight(word);
+    highlight_db->removeHighlight(word);
 }
 
 void chapar::addHighlight(QString word, QString last)
 {
-    highlight_db.addHighlight(word, last);
+    highlight_db->addHighlight(word, last);
 }
 
 chapar::~chapar()

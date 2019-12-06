@@ -42,6 +42,7 @@ Window {
     property int index_m : 1
     property int fa_search_c : 0 //last farsi search count (length)
     property int en_search_c : 0 //last farsi search count (length)
+    property int pc_mode : 1
 
 
     Text
@@ -65,14 +66,15 @@ Window {
     {
         id: playMusic
         //source: "file:///home/bijan/Project/Assistant/Scripts/MP3/test.mp3"
-        onStopped: {
+        onStopped:
+        {
             if (en_text.text.length > 2 || (fa_text.text.length > 2))
             {
-                list_search.get(index_m-1).sColor = "#bbb"
+                main_view.pronStoppedSearch(index_m)
             }
             else
             {
-                list_el.get(index_m-1).sColor = "#bbb"
+                main_view.pronStopped(index_m)
             }
 
         }
@@ -227,7 +229,8 @@ Window {
                 anchors.verticalCenter: parent.verticalCenter
                 horizontalAlignment: TextInput.AlignRight
                 color: "#ccc"
-                onTextChanged: {
+                onTextChanged:
+                {
                     if (fa_text.text.length > 2)
                     {
                         if (fa_search_c < fa_text.text.length)
@@ -365,7 +368,8 @@ Window {
             MouseArea
             {
                 anchors.fill: parent
-                onClicked: {
+                onClicked:
+                {
                     if (lsview.indexAt(10,lsview.contentY)+25 > lsview.count)
                         lsview.positionViewAtEnd()
                     else
@@ -415,7 +419,6 @@ Window {
 
     function updatePage()
     {
-
         status.text = main_view.getLsConY() + " / " +
                 main_view.getLsCount() +
                 "\nV0.12 - Settings: " + settings.ls_cony;
