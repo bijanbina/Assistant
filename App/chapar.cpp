@@ -1,5 +1,4 @@
 #include "chapar.h"
-#include <QFile>
 
 int getIntCommand(const char *command)
 {
@@ -37,7 +36,7 @@ chapar::chapar(QObject *ui, QObject *parent) : QObject(parent)
 
 void chapar::start()
 {
-    getAgentID();
+    //getAgentID();
     //channel->write("12\n");
     //timout_reach();
 }
@@ -54,8 +53,8 @@ void chapar::updateData()
 {
     //qDebug() <<"start index:" << start_index << "end index" << end_index;
     //qDebug() <<"buffer:" << buffer;
-    //QFile inputFile("/storage/emulated/0/BIC/phrasebook");
-    QFile inputFile("/home/bijan/Project/Assistant/Scripts/phrasebook");
+    QFile inputFile("/storage/emulated/0/BIC/phrasebook");
+    //QFile inputFile("/home/bijan/Project/Assistant/Scripts/phrasebook");
     //QFile inputFile(":/phrasebook");
     int i =0;
     if (inputFile.open(QIODevice::ReadOnly))
@@ -65,28 +64,40 @@ void chapar::updateData()
        {
           i++;
           QString line = in.readLine();
-          int word2 = line.indexOf(",");
-          QQmlProperty::write(root, "word1", line.mid(0,word2-1));
-          QQmlProperty::write(root, "word2", line.mid(word2+2));
+          int word_sep = line.indexOf(",");
+          QString word1 = line.mid(0,word_sep-1);
+          QString word2 = line.mid(word_sep+2);
+          bool isHighlight = highlight_db.isHighlight(word1 , i-1);
+          QQmlProperty::write(root, "word1", word1);
+          QQmlProperty::write(root, "word2", word2);
           QQmlProperty::write(root, "index_val", i);
+          QQmlProperty::write(root, "isHighlight", isHighlight);
           QMetaObject::invokeMethod(root, "addList");
           //
-          if (i < 5000)
+          /*if (i < 5000)
           {
               QString command = QString("/home/bijan/Project/Assistant/Scripts/MP3/pr_download.sh ");
               command += line.mid(0,word2-1);
               getIntCommand(command.toStdString().c_str());
-          }
+          }*/
        }
        inputFile.close();
+       QString highlight_string = highlight_db.getHighlightString();
+       QQmlProperty::write(root, "highlight_string", highlight_string);
        QMetaObject::invokeMethod(root, "itemAdded");
+       highlight_db.saveHighlight();
 
     }
 }
 
-void chapar::getAgentID()
+void chapar::removeHighlight(QString word)
 {
-    ;
+    highlight_db.removeHighlight(word);
+}
+
+void chapar::addHighlight(QString word, QString last)
+{
+    highlight_db.addHighlight(word, last);
 }
 
 chapar::~chapar()

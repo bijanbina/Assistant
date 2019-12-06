@@ -5,7 +5,8 @@ QT += quick
 
 SOURCES += \
     main.cpp \
-    chapar.cpp
+    chapar.cpp \
+    highlight.cpp
 
 RESOURCES += \
     gallery.qrc
@@ -13,11 +14,11 @@ RESOURCES += \
 
 OTHER_FILES += \
     qml/ControlViewToolBar.qml \
-    qml/gallery.qml \
     gallery.qrc
 
 HEADERS += \
-    chapar.h
+    chapar.h \
+    highlight.h
 
 DISTFILES += \
     android/AndroidManifest.xml \
@@ -26,6 +27,14 @@ DISTFILES += \
     android/res/values/libs.xml \
     android/build.gradle \
     android/gradle/wrapper/gradle-wrapper.properties \
-    android/gradlew.bat
+    android/gradlew.bat \
+    android/AndroidManifest.xml \
+    android/gradle/wrapper/gradle-wrapper.jar \
+    android/gradlew \
+    android/res/values/libs.xml \
+    android/build.gradle \
+    android/gradle/wrapper/gradle-wrapper.properties \
+    android/gradlew.bat \
+    qml/main.qml
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android

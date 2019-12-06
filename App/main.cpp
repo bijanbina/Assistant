@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
-    engine.load(QUrl(QStringLiteral("qrc:/qml/gallery.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
     QObject *root = engine.rootObjects().first();
 
     chapar *sender = new chapar(root);
@@ -68,6 +68,8 @@ int main(int argc, char *argv[])
     //QObject::connect(root, SIGNAL(addPhSignal(QString , QString)), dbusChnl, SLOT(writeAccepted(QString , QString)));
     //QObject::connect(root, SIGNAL(newMessage(QString)), sender, SLOT(sendMSG(QString)));
     //QObject::connect(root, SIGNAL(notifClicked()), dbusChnl, SLOT(notifClicked()));
+    QObject::connect(root, SIGNAL(remove_highlight(QString)), sender, SLOT(removeHighlight(QString)));
+    QObject::connect(root, SIGNAL(add_highlight(QString, QString)), sender, SLOT(addHighlight(QString, QString)));
 
 
     if (engine.rootObjects().isEmpty())

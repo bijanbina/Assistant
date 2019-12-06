@@ -54,9 +54,10 @@ import QtQuick.Controls.Styles 1.1
 
 Rectangle {
     property bool pressed: false
-    property bool isHighlighted
+    property real isHighlighted
     property string word_left
     property string word_right
+    property int word_index
     property color fontColor
     property string soundColor : "#bbb"
     signal mouseOnSound()
@@ -65,11 +66,16 @@ Rectangle {
 
     gradient: Gradient {
         GradientStop {
-            color: if (isHighlighted)
+            id: grad_back
+            color: if (isHighlighted == 1)
                    {
                         "#033"
                    }
-                   else
+                   else if (isHighlighted == 2)
+                   {
+                        "#4d3800"
+                   }
+                   else //not highlighted
                    {
                        if (pressed)
                            "#222"
@@ -101,9 +107,69 @@ Rectangle {
     implicitHeight: row.implicitHeight
     baselineOffset: row.y + text.y + text.baselineOffset
 
+    Rectangle
+    {
+        property int border_width : 4
+        property color border_color : "#1f1f1f"
+        Rectangle
+        {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: parent.top
+            height: parent.border_width
+            //color: grad_back.color
+            color: parent.border_color
+        }
+        id: label_index
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        width: control.width * 0.05
+        height: control.height
+        color: "#252525"
+        Text {
+            anchors.left: parent.left
+            anchors.leftMargin: if ( word_index<100 )
+                                {
+                                    5
+                                }
+                                else if ( word_index<1000 )
+                                {
+                                    0
+                                }
+                                else
+                                {
+                                    -3
+                                }
+
+            text: word_index
+            color: fontColor
+            font.pixelSize: control.height * 0.15
+            font.family: openSans.name
+
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.horizontalCenter: parent.horizontalCenter
+            rotation: 90
+        }
+        Rectangle
+        {
+            anchors.top: parent.top
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            width: parent.border_width * 0
+            color: parent.border_color
+        }
+        Rectangle
+        {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            height: parent.border_width
+            color: parent.border_color
+        }
+    }
     Row {
         id: row
-        anchors.left: parent.left
+        anchors.left: label_index.right
         anchors.leftMargin: textSingleton.implicitHeight
         anchors.verticalCenter: parent.verticalCenter
         anchors.horizontalCenter: parent.horizontalCenter
@@ -134,12 +200,26 @@ Rectangle {
 
     Rectangle
     {
+        //id: sound button
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         width: control.width * 0.15
         height: control.height * 0.8
-        color: "#333"
+        opacity: 0.1
+        color: "#777"
+        z:5
+    }
+
+    Rectangle
+    {
+        //id: sound button
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        width: control.width * 0.15
+        height: control.height * 0.8
+        color: "transparent"
         Text {
+            opacity: 1
             id: label_center
             text: "\uf028"
             color: soundColor

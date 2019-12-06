@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QQmlApplicationEngine>
 #include <QQmlProperty>
+#include "highlight.h"
 
 class chapar : public QObject
 {
@@ -20,12 +21,13 @@ public:
 
 public slots:
     void sendMSG(QString text);
+    void removeHighlight(QString word);
+    void addHighlight(QString word, QString last);
 
 private slots:
 
 private:
     void sendMessage(QString message);
-    void getAgentID();
     void openSerialPort();
     bool IE;//interrupt enable
     bool multiPacket;
@@ -33,6 +35,7 @@ private:
 
     QString buffer;
     QString txBuffer;
+    Highlight highlight_db;
 };
 
 #endif // CHAPAR_H
