@@ -107,6 +107,7 @@ void chapar::removeHighlight(QString word)
 void chapar::addHighlight(QString word, QString last)
 {
     highlight_db->addHighlight(word, last);
+    qDebug() << "Received Word: " << word << " Last: " << last;
 }
 
 chapar::~chapar()

@@ -21,7 +21,7 @@ Rectangle
             id: list_el
         }
 
-        delegate: BlackButtonBackground
+        delegate: WordButton
         {
             width: root.width
             height: root.height * 0.125
@@ -86,7 +86,7 @@ Rectangle
             id: list_search
         }
 
-        delegate: BlackButtonBackground
+        delegate: WordButton
         {
             width: root.width
             height: root.height * 0.125
@@ -373,9 +373,6 @@ Rectangle
     {
         list_search.get(index-1).sColor = "#bbb"
     }
-
-    signal remove_highlight(string word)
-    signal add_highlight(string word, string last)
 }
 
 
