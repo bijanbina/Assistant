@@ -53,8 +53,8 @@ void chapar::updateData()
 {
     //qDebug() <<"start index:" << start_index << "end index" << end_index;
     //qDebug() <<"buffer:" << buffer;
-    QFile inputFile("/storage/emulated/0/BIC/phrasebook");
-    //QFile inputFile("/home/bijan/Project/Assistant/Scripts/phrasebook");
+    //QFile inputFile("/storage/emulated/0/BIC/phrasebook");
+    QFile inputFile("/home/bijan/Project/Assistant/Scripts/phrasebook");
     //QFile inputFile(":/phrasebook");
     int i =0;
     if (inputFile.open(QIODevice::ReadOnly))

@@ -19,5 +19,6 @@
         <file>../Scripts/phrasebook</file>
         <file>fonts/GiddyupStd.otf</file>
         <file>fonts/fasolid.ttf</file>
+        <file>qml/WordList.qml</file>
     </qresource>
 </RCC>
