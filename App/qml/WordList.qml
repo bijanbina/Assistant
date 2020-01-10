@@ -11,11 +11,17 @@ import QtMultimedia 5.5
 
 Rectangle
 {
+    property variant worda_l: ["", "", "", ""]
+    property variant worda_r: ["", "", "", ""]
+    property variant worda_i: [0, 0, 0, 0]
+    property variant worda_h: [0, 0, 0, 0]
+
     ListView
     {
         id: lsview
         anchors.fill: parent
         headerPositioning: ListView.PullBackHeader
+        visible: pc_mode
         model: ListModel
         {
             id: list_el
@@ -108,21 +114,99 @@ Rectangle
          }
     }
 
+    ListView
+    {
+        id: pc_view
+        anchors.fill: parent
+        headerPositioning: ListView.PullBackHeader
+        z: 2
+        visible: pc_mode
+        model: ListModel
+        {
+            id: list_pc
+        }
+
+        delegate: WordButton4
+        {
+            width: root.width
+            height: root.height * 0.114
+            word_l: [word1, word2, word3, word4]
+            word_r: [translate1, translate2, translate3, translate4]
+            word_i: [index_m1, index_m2, index_m3, index_m4]
+            word_h: [highlight1, highlight2, highlight3, highlight4]
+            color_s: [sColor1, sColor2, sColor3, sColor4]
+         }
+
+        Keys.onPressed:
+        {
+           console.log("move up");
+           if (event.key == Qt.Key_Up)
+           {
+               fastScrollUp(6)
+               event.accepted = true;
+           }
+           if (event.key == Qt.Key_Down)
+           {
+               //console.log("move up");
+               fastScrollDown(6)
+               event.accepted = true;
+           }
+        }
+
+        focus: true
+
+        onContentYChanged:
+        {
+            forceActiveFocus()
+            updatePage()
+        }
+    }
+
     function addList(highlight, index, word, translate)
     {
-        if ( !highlight )
+        if( pc_mode )
         {
-            list_el.append({"index_i" : index , "word" : word,
-                            "translate" : translate, "highlight" : 0,
-                            "sColor" : "#bbb"});
+            worda_i[index%4] = index
+            worda_l[index%4] = word
+            worda_r[index%4] = translate
+            if ( highlight )
+            {
+                worda_h[index%4] = 1
+            }
+            else
+            {
+                worda_h[index%4] = 0
+            }
+            if( index%4 === 0 )
+            {
+                list_pc.append({"index_m1" : worda_i[1] , "word1" : worda_l[1],
+                                "translate1" : worda_r[1], "highlight1" : worda_h[1],
+                                "index_m2" : worda_i[2] , "word2" : worda_l[2],
+                                "translate2" : worda_r[2], "highlight2" : worda_h[2],
+                                "index_m3" : worda_i[3] , "word3" : worda_l[3],
+                                "translate3" : worda_r[3], "highlight3" : worda_h[3],
+                                "index_m4" : worda_i[0] , "word4" : worda_l[0],
+                                "translate4" : worda_r[0], "highlight4" : worda_h[0],
+                                "sColor1" : "#bbb", "sColor2" : "#bbb",
+                                "sColor3" : "#bbb", "sColor4" : "#bbb"});
+            }
         }
         else
         {
-            list_el.append({"index_i" : index , "word" : word,
-                           "translate" : translate, "highlight" : 1,
-                           "sColor" : "#bbb"});
+            if ( !highlight )
+            {
+                list_el.append({"index_i" : index , "word" : word,
+                                "translate" : translate, "highlight" : 0,
+                                "sColor" : "#bbb"});
+            }
+            else
+            {
+                list_el.append({"index_i" : index , "word" : word,
+                               "translate" : translate, "highlight" : 1,
+                               "sColor" : "#bbb"});
+            }
+            list_backup.append({"index_i" : index , "word" : word, "translate" : translate});
         }
-        list_backup.append({"index_i" : index , "word" : word, "translate" : translate});
     }
 
     function en_search_show(text, isClear)
@@ -196,7 +280,8 @@ Rectangle
         }
     }
 
-    function removeList() {
+    function removeList()
+    {
         var return_val = 0;
         var i = 0;
         var max_size = list_el.count;
@@ -222,7 +307,8 @@ Rectangle
         return return_val;
     }
 
-    function restoreList() {
+    function restoreList()
+    {
         var return_val = 0;
         var i = 0;
         var max_size = list_backup.count;
@@ -252,18 +338,142 @@ Rectangle
     //Chnage color of index
     function changecl(ind)
     {
+        var list_word
+        if( pc_mode )
+        {
+            if (!star_mode) //no change color in starmode
+            {
+                //toggle color on ui
+                if ( ind%4 == 1 )
+                {
+                    list_word = list_pc.get(ind/4).word1
+                    if ( list_pc.get(ind/4).highlight1 === 1)
+                    {
+                        list_pc.get(ind/4).highlight1 = 0
+                    }
+                    else
+                    {
+                        list_pc.get(ind/4).highlight1 = 1
+                    }
+                }
+                else if ( ind%4 == 2 )
+                {
+                    list_word = list_pc.get(ind/4).word2
+                    if ( list_pc.get(ind/4).highlight2 === 1)
+                    {
+                        list_pc.get(ind/4).highlight2 = 0
+                    }
+                    else
+                    {
+                        list_pc.get(ind/4).highlight2 = 1
+                    }
+                }
+                else if ( ind%4 == 3 )
+                {
+                    list_word = list_pc.get(ind/4).word3
+                    if ( list_pc.get(ind/4).highlight3 === 1)
+                    {
+                        list_pc.get(ind/4).highlight3 = 0
+                    }
+                    else
+                    {
+                        list_pc.get(ind/4).highlight3 = 1
+                    }
+                }
+                else if ( ind%4 == 4 )
+                {
+                    list_word = list_pc.get(ind/4).word4
+                    if ( list_pc.get(ind/4).highlight4 === 1)
+                    {
+                        list_pc.get(ind/4).highlight4 = 0
+                    }
+                    else
+                    {
+                        list_pc.get(ind/4).highlight4 = 1
+                    }
+                }
+
+
+            }
+            else //in star_mode
+            {
+                if ( list_el.get(ind-1).highlight == 2)
+                {
+                    list_el.get(ind-1).highlight = 1
+                }
+                else
+                {
+                    list_el.get(ind-1).highlight = 2
+                }
+            }
+        }
+        else
+        {
+            if (!star_mode) //no change color in starmode
+            {
+                list_word = list_el.get(ind-1).word
+
+                //toggle color on ui
+                if ( list_word.get(ind-1).highlight == 1)
+                {
+                    list_word.get(ind-1).highlight = 0
+                }
+                else
+                {
+                    list_el.get(ind-1).highlight = 1
+                }
+            }
+            else //in star_mode
+            {
+                if ( ind%4 == 1 )
+                {
+                    if ( list_pc.get(ind/4).highlight1 === 2)
+                    {
+                        list_pc.get(ind/4).highlight1 = 1
+                    }
+                    else
+                    {
+                        list_pc.get(ind/4).highlight1 = 2
+                    }
+                }
+                else if ( ind%4 == 2 )
+                {
+                    if ( list_pc.get(ind/4).highlight2 === 2)
+                    {
+                        list_pc.get(ind/4).highlight2 = 1
+                    }
+                    else
+                    {
+                        list_pc.get(ind/4).highlight2 = 2
+                    }
+                }
+                else if ( ind%4 == 3 )
+                {
+                    if ( list_pc.get(ind/4).highlight3 === 2)
+                    {
+                        list_pc.get(ind/4).highlight3 = 1
+                    }
+                    else
+                    {
+                        list_pc.get(ind/4).highlight3 = 2
+                    }
+                }
+                else if ( ind%4 == 4 )
+                {
+                    if ( list_pc.get(ind/4).highlight4 === 2)
+                    {
+                        list_pc.get(ind/4).highlight4 = 1
+                    }
+                    else
+                    {
+                        list_pc.get(ind/4).highlight4 = 2
+                    }
+                }
+            }
+        }
+
         if (!star_mode) //no change color in starmode
         {
-            //toggle color on ui
-            if ( list_el.get(ind-1).highlight == 1)
-            {
-                list_el.get(ind-1).highlight = 0
-            }
-            else
-            {
-                list_el.get(ind-1).highlight = 1
-            }
-
             //change setting (f char=false, t char = true)
             if (highlight_string[ind-1] == 'f' )
             {
@@ -279,77 +489,87 @@ Rectangle
 
                 if ( last_ind == 0 )
                 {
-                    add_highlight(list_el.get(ind-1).word, "")
+                    add_highlight(list_word, "")
                 }
                 else
                 {
-                    add_highlight(list_el.get(ind-1).word, list_el.get(last_ind).word)
+                    var last_word
+                    if( pc_mode )
+                    {
+                        last_ind = last_ind + 1;
+
+                        if ( last_ind%4 == 1 )
+                        {
+                            last_word = list_pc.get(last_ind/4).word1;
+                        }
+                        else if ( last_ind%4 == 2 )
+                        {
+                            last_word = list_pc.get(last_ind/4).word2;
+                        }
+                        else if ( last_ind%4 == 3 )
+                        {
+                            last_word = list_pc.get(last_ind/4).word3;
+                        }
+                        else if ( last_ind%4 == 4 )
+                        {
+                            last_word = list_pc.get(last_ind/4).word4;
+                        }
+                    }
+                    else
+                    {
+                        last_word = list_el.get(last_ind).word;
+                    }
+
+                    add_highlight(list_word, last_word)
                 }
             }
             else
             {
                 highlight_string = highlight_string.substr(0, ind-1) + 'f' + highlight_string.substr(ind);
-                remove_highlight(list_el.get(ind-1).word)
-            }
-        }
-        else //in star_mode
-        {
-            if ( list_el.get(ind-1).highlight == 2)
-            {
-                list_el.get(ind-1).highlight = 1
-            }
-            else
-            {
-                list_el.get(ind-1).highlight = 2
+                remove_highlight(list_word)
             }
         }
     }
 
     function sayWord(ind)
     {
-        //list_el.get(ind-1).sColor = "#2aba89"
-        if(pc_mode)
-        {
-            playMusic.source = "file:///home/bijan/Project/Assistant/Scripts/MP3/" + list_el.get(ind-1).word + ".mp3"
-        }
-        else
-        {
-            playMusic.source = "file:///storage/emulated/0/BIC/MP3/" + list_el.get(ind-1).word + ".mp3"
-        }
-        playMusic.play()
-        index_m = ind;
-    }
-
-    function sayWord_search(ind)
-    {
-        //list_el.get(ind-1).sColor = "#2aba89"
-        if(pc_mode)
-        {
-            playMusic.source = "file:///home/bijan/Project/Assistant/Scripts/MP3/" + list_search.get(ind-1).word + ".mp3"
-        }
-        else
-        {
-            playMusic.source = "file:///storage/emulated/0/BIC/MP3/" + list_search.get(ind-1).word + ".mp3"
-        }
-
-        playMusic.play()
         index_m = ind;
     }
 
     function forceView(ind)
     {
-        //lsview.positionViewAtIndex(ind, ListView.Center)
-        lsview.positionViewAtIndex(ind - 1, ListView.Beginning)
+        if( pc_mode )
+        {
+            pc_view.positionViewAtIndex(ind - 1, ListView.Beginning)
+        }
+        else
+        {
+            lsview.positionViewAtIndex(ind - 1, ListView.Beginning)
+        }
     }
 
     function getLsConY()
     {
-        return lsview.indexAt(10,lsview.contentY) + 1;
+        if( pc_mode )
+        {
+            return pc_view.indexAt(10,pc_view.contentY) + 1;
+        }
+        else
+        {
+            return lsview.indexAt(10,lsview.contentY) + 1;
+        }
     }
 
     function getLsCount()
     {
-        return list_el.count;
+        if( pc_mode )
+        {
+            return list_pc.count;
+        }
+        else
+        {
+            return list_el.count;
+        }
     }
 
     function showSearchView()
@@ -366,12 +586,87 @@ Rectangle
 
     function pronStopped(index)
     {
-        list_el.get(index-1).sColor = "#bbb"
+        if( pc_mode )
+        {
+            if ( index%4 === 1 )
+            {
+                list_pc.get(index/4).sColor1 = "#bbb"
+            }
+            else if( index%4 === 2 )
+            {
+                list_pc.get(index/4).sColor2 = "#bbb"
+            }
+            else if( index%4 === 3 )
+            {
+                list_pc.get(index/4).sColor3 = "#bbb"
+            }
+            else if( index%4 === 0 )
+            {
+                list_pc.get(index/4).sColor4 = "#bbb"
+            }
+        }
+        else
+        {
+            list_el.get(index-1).sColor = "#bbb"
+        }
     }
 
     function pronStoppedSearch(index)
     {
         list_search.get(index-1).sColor = "#bbb"
+    }
+
+    function fastScrollUp(num)
+    {
+        if (en_text.text.length > 2 || fa_text.text.length > 2)
+        {
+            en_text.text = ''
+            fa_text.text = ''
+            lsview.forceActiveFocus()
+        }
+        else
+        {
+            if( pc_mode )
+            {
+                if ( pc_view.indexAt(10,pc_view.contentY)+1 < num )
+                {
+                    pc_view.contentY = 1;
+                }
+                else
+                {
+                    pc_view.contentY = pc_view.contentY - num*(root.height * 0.125);
+                }
+            }
+            else
+            {
+                if ( lsview.indexAt(10,lsview.contentY)+1 < num )
+                {
+                    lsview.contentY = 1;
+                }
+                else
+                {
+                    lsview.contentY = lsview.contentY - num*(root.height * 0.125);
+                }
+            }
+        }
+    }
+
+    function fastScrollDown(num)
+    {
+        if( pc_mode )
+        {
+            if (pc_view.indexAt(10,pc_view.contentY)+num > pc_view.count)
+                pc_view.positionViewAtEnd()
+            else
+               pc_view.contentY = pc_view.contentY + num * (root.height * 0.125)
+        }
+        else
+        {
+            if (lsview.indexAt(10,lsview.contentY)+num > lsview.count)
+                lsview.positionViewAtEnd()
+            else
+               lsview.contentY = lsview.contentY + num * (root.height * 0.125)
+        }
     }
 }
 

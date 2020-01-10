@@ -58,7 +58,7 @@ Rectangle {
     property string word_left
     property string word_right
     property int word_index
-    property color fontColor
+    property color fontColor: root.darkFontColor
     property string soundColor : "#bbb"
     signal mouseOnSound()
     signal clickedMe()
@@ -234,9 +234,9 @@ Rectangle {
         MouseArea
         {
             anchors.fill: parent
-            onClicked:{
-                mouseOnSound()
-            }
+            onClicked: playPron()
+            onEntered: playPron()
+            hoverEnabled: pc_mode
         }
         z:10
     }
@@ -245,9 +245,47 @@ Rectangle {
     MouseArea
     {
         anchors.fill: parent
-        onClicked:{
-            clickedMe()
+        onClicked:
+        {
+            changecl(word_index);
         }
+    }
+
+    function playPron()
+    {
+        if(pc_mode)
+        {
+            playMusic.source = "file:///home/bijan/Project/Assistant/Scripts/MP3/" + word_left + ".mp3"
+        }
+        else
+        {
+            playMusic.source = "file:///storage/emulated/0/BIC/MP3/" + word_left + ".mp3"
+        }
+        if( pc_mode )
+        {
+            if ( word_index%4 === 1 )
+            {
+                list_pc.get(word_index/4).sColor1 = "#2aba89"
+            }
+            else if( word_index%4 === 2 )
+            {
+                list_pc.get(word_index/4).sColor2 = "#2aba89"
+            }
+            else if( word_index%4 === 3 )
+            {
+                list_pc.get(word_index/4).sColor3 = "#2aba89"
+            }
+            else if( word_index%4 === 0 )
+            {
+                list_pc.get(word_index/4).sColor4 = "#2aba89"
+            }
+        }
+        else
+        {
+            list_el.get(word_index-1).sColor = "#2aba89"
+        }
+        playMusic.play()
+        index_m = word_index;
     }
 
 

@@ -10,22 +10,6 @@ import Qt.labs.settings 1.0
 import QtMultimedia 5.5
 
 Window {
-    id: root
-    objectName: "window"
-    visible: true
-    width: 400
-    height: 570
-    x: 2600
-    y: 600
-
-    color: "#161616"
-    title: "Assistant"
-
-    function toPixels(percentage)
-    {
-        return percentage * Math.min(root.width, root.height);
-    }
-
     property bool isScreenPortrait: height > width
     property bool star_mode: false
     property bool isHighlight: false
@@ -43,6 +27,28 @@ Window {
     property int fa_search_c : 0 //last farsi search count (length)
     property int en_search_c : 0 //last farsi search count (length)
     property int pc_mode : 1
+
+    id: root
+    objectName: "window"
+    visible: true
+    width: if (pc_mode)
+               1400
+           else
+               400
+    height: if (pc_mode)
+                600
+            else
+                570
+    x: 2200
+    y: 500
+
+    color: "#161616"
+    title: "Assistant"
+
+    function toPixels(percentage)
+    {
+        return percentage * Math.min(root.width, root.height);
+    }
 
 
     Text
@@ -327,24 +333,9 @@ Window {
             MouseArea
             {
                 anchors.fill: parent
-                onClicked: {
-                    if (en_text.text.length > 2 || fa_text.text.length > 2)
-                    {
-                        en_text.text = ''
-                        fa_text.text = ''
-                        lsview.forceActiveFocus()
-                    }
-                    else
-                    {
-                        if ( lsview.indexAt(10,lsview.contentY)+1 < 25 )
-                        {
-                            lsview.contentY = 1;
-                        }
-                        else
-                        {
-                            lsview.contentY = lsview.contentY - 25*(root.height * 0.125);
-                        }
-                    }
+                onClicked:
+                {
+                    main_view.fastScrollUp(25)
                 }
             }
         }
@@ -370,10 +361,7 @@ Window {
                 anchors.fill: parent
                 onClicked:
                 {
-                    if (lsview.indexAt(10,lsview.contentY)+25 > lsview.count)
-                        lsview.positionViewAtEnd()
-                    else
-                       lsview.contentY = lsview.contentY + 25 * (root.height * 0.125)
+                    main_view.fastScrollDown(25)
                 }
             }
         }

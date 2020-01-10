@@ -20,5 +20,6 @@
         <file>fonts/GiddyupStd.otf</file>
         <file>fonts/fasolid.ttf</file>
         <file>qml/WordList.qml</file>
+        <file>qml/WordButton4.qml</file>
     </qresource>
 </RCC>
