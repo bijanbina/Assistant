@@ -52,7 +52,8 @@ import QtQuick 2.2
 import QtQuick.Controls 1.1
 import QtQuick.Controls.Styles 1.1
 
-Rectangle {
+Rectangle
+{
     property bool pressed: false
     property real isHighlighted
     property string word_left
@@ -62,7 +63,11 @@ Rectangle {
     property string soundColor : "#bbb"
     signal mouseOnSound()
     signal clickedMe()
+
     id: control
+    implicitWidth: row.implicitWidth
+    implicitHeight: row.implicitHeight
+    baselineOffset: row.y + text.y + text.baselineOffset
 
     gradient: Gradient {
         GradientStop {
@@ -103,9 +108,6 @@ Rectangle {
         anchors.bottom: parent.bottom
         color: "#000"
     }*/
-    implicitWidth: row.implicitWidth
-    implicitHeight: row.implicitHeight
-    baselineOffset: row.y + text.y + text.baselineOffset
 
     Rectangle
     {
@@ -277,7 +279,7 @@ Rectangle {
             }
             else if( word_index%4 === 0 )
             {
-                list_pc.get(word_index/4).sColor4 = "#2aba89"
+                list_pc.get(word_index/4-1).sColor4 = "#2aba89"
             }
         }
         else
@@ -285,6 +287,9 @@ Rectangle {
             list_el.get(word_index-1).sColor = "#2aba89"
         }
         playMusic.play()
+
+        console.log(playMusic.error)
+
         index_m = word_index;
     }
 

@@ -602,12 +602,40 @@ Rectangle
             }
             else if( index%4 === 0 )
             {
-                list_pc.get(index/4).sColor4 = "#bbb"
+                list_pc.get(index/4-1).sColor4 = "#bbb"
             }
         }
         else
         {
             list_el.get(index-1).sColor = "#bbb"
+        }
+    }
+
+    function pronError(index)
+    {
+        var fg_color = "#cd4646"
+        if( pc_mode )
+        {
+            if ( index%4 === 1 )
+            {
+                list_pc.get(index/4).sColor1 = fg_color
+            }
+            else if( index%4 === 2 )
+            {
+                list_pc.get(index/4).sColor2 = fg_color
+            }
+            else if( index%4 === 3 )
+            {
+                list_pc.get(index/4).sColor3 = fg_color
+            }
+            else if( index%4 === 0 )
+            {
+                list_pc.get(index/4-1).sColor4 = fg_color
+            }
+        }
+        else
+        {
+            list_el.get(index-1).sColor = fg_color
         }
     }
 

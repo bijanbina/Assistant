@@ -84,6 +84,11 @@ Window {
             }
 
         }
+
+        onError:
+        {
+            main_view.pronError(index_m)
+        }
     }
 
     Rectangle
