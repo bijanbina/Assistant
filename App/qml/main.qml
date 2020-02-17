@@ -96,10 +96,10 @@ Window {
         id: topBar
         height: 0.1 * root.height
         width: root.width
-        anchors.left: root.left
-        anchors.top: root.top
+        anchors.left: parent.left
+        anchors.top: parent.top
         color: "#222"
-        z:2
+//        z:-1
         Rectangle
         {
             id: en_search
@@ -294,21 +294,22 @@ Window {
     {
         id: main_view
 
-        height: 0.8 * parent.height
-        width: parent.width
+        width: root.width
         anchors.left: parent.left
         anchors.top: topBar.bottom
+        anchors.bottom: bottom_bar.top
         color: "#333"
     }
 
     Rectangle
     {
         id: bottom_bar
-        height: (parent.height - main_view.height)/2
+        height: 0.1 * root.height
         width: parent.width
         anchors.left: parent.left
-        anchors.top: main_view.bottom
+        anchors.bottom: parent.bottom
         color: "#222"
+//        z: -1
         Label
         {
             id: status

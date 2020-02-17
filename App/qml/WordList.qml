@@ -47,7 +47,8 @@ Rectangle
                 // sound icon color back.
             }
 
-            onClickedMe: {
+            onClickedMe:
+            {
                     // Only push the control view if we haven't already pushed it...
                     //addList()
                     changecl(index_i);
@@ -55,13 +56,25 @@ Rectangle
             }
 
          }
-         Keys.onPressed: {
-            if (event.key == Qt.Key_Up) {
+         Keys.onPressed:
+         {
+            if ( event.key==Qt.Key_Up )
+            {
                 //console.log("move up");
                 lsview.contentY = lsview.contentY - 100
                 event.accepted = true;
             }
-            if (event.key == Qt.Key_Down) {
+            else if ( event.key == Qt.Key_Down )
+            {
+                //console.log("move up");
+                if (lsview.contentY + 100 > (lsview.contentHeight-root.height))
+                    lsview.contentY = lsview.contentHeight - root.height;
+                else
+                   lsview.contentY = lsview.contentY + 100
+                event.accepted = true;
+            }
+            else if ( event.key==Qt.Key_Space )
+            {
                 //console.log("move up");
                 if (lsview.contentY + 100 > (lsview.contentHeight-root.height))
                     lsview.contentY = lsview.contentHeight - root.height;
@@ -74,7 +87,8 @@ Rectangle
 
          onContentYChanged: updatePage()
          //onContentHeightChanged: {lsview.contentY = (settings.ls_cony)*100.0}
-         onWidthChanged: {
+         onWidthChanged:
+         {
              //lsview.contentY = (settings.ls_cony)*100.0;
              //updatePage(Math.round((settings.ls_cony)*100.0/(root.height * 0.125)));
          }
@@ -117,9 +131,12 @@ Rectangle
     ListView
     {
         id: pc_view
-        anchors.fill: parent
+        width: root.width
+        height: root.height * 0.8
+        anchors.left: parent.left
+        anchors.top: topBar.bottom
         headerPositioning: ListView.PullBackHeader
-        z: 2
+//        z: 2
         visible: pc_mode
         model: ListModel
         {
@@ -662,7 +679,10 @@ Rectangle
                 }
                 else
                 {
-                    pc_view.contentY = pc_view.contentY - num*(root.height * 0.125);
+                    //pc_view.contentY = pc_view.contentY - num*(root.height * 0.125);
+
+                    console.log(main_view.getLsConY())
+                    pc_view.positionViewAtIndex(main_view.getLsConY() - num - 1, ListView.Beginning)
                 }
             }
             else
@@ -684,9 +704,15 @@ Rectangle
         if( pc_mode )
         {
             if (pc_view.indexAt(10,pc_view.contentY)+num > pc_view.count)
+            {
                 pc_view.positionViewAtEnd()
+            }
             else
-               pc_view.contentY = pc_view.contentY + num * (root.height * 0.125)
+            {
+               //pc_view.contentY = pc_view.contentY + num * (root.height * 0.125)
+               console.log(main_view.getLsConY(), num)
+               pc_view.positionViewAtIndex(main_view.getLsConY() + num + 6, ListView.End)
+            }
         }
         else
         {
