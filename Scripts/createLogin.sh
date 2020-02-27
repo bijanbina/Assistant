@@ -11,9 +11,9 @@ GAPS=`cat cooky_login | grep GAPS | awk '{ print $7 }'`
 # after 2grep :   value="iOcAO2QwRpg"> 
 # after 2sed  :   (remove some chars) --> value=iOcAO2QwRpg
 # after 1awk  :   iOcAO2QwRpg
-#echo $gxf
-#echo "Email=$1"  "Passwd=$2"
-curl -c cooky_login 'https://accounts.google.com/signin/challenge/sl/password'  -H 'User-Agent: Mozilla/5.0' -H "Cookie: GAPS=$GAPS" --data 'Page=PasswordSeparationSignIn' --data-urlencode "gxf=$gxf" --data-urlencode "Email=$1" --data-urlencode "Passwd=$2">/dev/null
+echo $gxf
+echo "Email=$1"  "Passwd=$2"
+curl -c cooky_login 'https://accounts.google.com/signin/challenge/sl/password'  -H 'User-Agent: Mozilla/5.0' -H "Cookie: GAPS=$GAPS" --data 'Page=PasswordSeparationSignIn' --data-urlencode "gxf=$gxf" --data-urlencode "Email=$1" --data-urlencode "Passwd=$2">page.html
 SID=`cat cooky_login |  grep -P '\tSID' | awk '{ print $7 }'`
 HSID=`cat cooky_login | grep HSID | awk '{ print $7 }'`
 SSID=`cat cooky_login | grep SSID | awk '{ print $7 }'`
@@ -21,4 +21,4 @@ SSID=`cat cooky_login | grep SSID | awk '{ print $7 }'`
 
 COOKIE_TEXT="cookie=\"SID=$SID; HSID=$HSID; SSID=$SSID;\""
 echo $COOKIE_TEXT > ../AccountInfo.sh
-rm cooky_login
+#rm cooky_login

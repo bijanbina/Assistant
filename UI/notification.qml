@@ -171,6 +171,7 @@ Window {
             horizontalAlignment: (direct) ? TextInput.AlignLeft  : TextInput.AlignRight
 
             onAccepted: addPhSignal(title,inputBox.text)
+            onTextChanged: timeoutTimr.restart()
             //Keys.
         }
 
