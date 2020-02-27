@@ -26,6 +26,7 @@ public:
 public slots:
     void translateDirect();
     void translate(const QString &text);
+    void runCommand();
     //Q_SCRIPTABLE void translate(const QString &text);
 
     void checkPhraseBook();

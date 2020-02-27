@@ -17,6 +17,9 @@ sed "s/],\[/\n/g" phrasebookv0 > phrasebookv1
 sed -i'' -e "s:\[.*\[::g" -e "s:].*]::g" phrasebookv1 #remove header & footer
 sed -i'' "s:\"::g" phrasebookv1 		#remove quotations
 awk -F "," '{print $4,",",$5}' phrasebookv1 > phrasebookv2 #strip down to word and meaning
+
 mv phrasebookv2 phrasebook			#for debug purpuse
+#tail -r phrasebookv2
+tac phrasebookv2 > phrasebook			#for debug purpuse
 #rm translatePage phrasebookv0 phrasebookv1	#comment these lines constrains
 cd $lastDir

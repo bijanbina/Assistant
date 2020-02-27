@@ -33,6 +33,7 @@ void Channel::ConnectDBus()
 
     session.connect("", "/", COM_NAME, "translate", this, SLOT(translate(const QString &)));
     session.connect("", "/", COM_NAME, "direct", this, SLOT(translateDirect()));
+    session.connect("", "/", COM_NAME, "run_command", this, SLOT(runCommand()));
 
     /*if(!session.registerObject("/", this, QDBusConnection::ExportScriptableContents)) {
         qFatal("Another session is on DBus.");
@@ -45,6 +46,11 @@ void Channel::ConnectDBus()
         // this instant too
         return;
     }
+}
+
+void Channel::runCommand()
+{
+    system(ASSISTANT_PATH"Scripts/ph_download.sh &");
 }
 
 void Channel::translate(const QString &text)
