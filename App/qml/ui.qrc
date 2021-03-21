@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>WordButton.qml</file>
+        <file>WordList.qml</file>
+        <file>WordButton4.qml</file>
+        <file>SearchBar.qml</file>
+        <file>BottomButton.qml</file>
+        <file>FavoriteButton.qml</file>
+        <file>WordList4.qml</file>
+    </qresource>
+</RCC>

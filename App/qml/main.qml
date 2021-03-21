@@ -8,6 +8,7 @@ import QtQuick.Layouts 1.0
 import QtQuick.Window 2.1
 import Qt.labs.settings 1.0
 import QtMultimedia 5.5
+import "qrc:/"
 
 Window
 {
@@ -90,13 +91,13 @@ Window
     FontLoader
     {
         id: openSans
-        source: "qrc:/fonts/OpenSans-Regular.ttf"
+        source: "qrc:/OpenSans-Regular.ttf"
     }
 
     FontLoader
     {
         id: fontAwesome
-        source: "qrc:/fonts/fasolid.ttf"
+        source: "qrc:/fasolid.ttf"
     }
 
     Text

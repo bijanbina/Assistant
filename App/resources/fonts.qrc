@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>OpenSans-Regular.ttf</file>
+        <file>fasolid.ttf</file>
+    </qresource>
+</RCC>

@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
     app.setApplicationName("Gallery");
 
     QQmlApplicationEngine engine;
-    engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:main.qml")));
     QObject *root = engine.rootObjects().first();
 
     chapar *sender = new chapar(root);

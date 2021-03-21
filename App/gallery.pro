@@ -4,23 +4,25 @@ INCLUDEPATH += .
 QT += quick
 
 SOURCES += \
-    main.cpp \
-    chapar.cpp \
-    highlight.cpp
+    sources/*.cpp
 
 RESOURCES += \
-    gallery.qrc
+    resources/fonts.qrc \
+    qml/ui.qrc
 
 
 OTHER_FILES += \
     qml/ControlViewToolBar.qml \
-    gallery.qrc \
+    resources/fonts.qrc \
+    qml/ui.qrc \
     qml/*.qml
 
 
 HEADERS += \
-    chapar.h \
-    highlight.h
+    sources/*.h
+
+# Additional import path used to resolve QML modules in Qt Creator's code model
+QML_IMPORT_PATH += qml/
 
 DISTFILES += \
     android/AndroidManifest.xml \
