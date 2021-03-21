@@ -14,7 +14,9 @@ RESOURCES += \
 
 OTHER_FILES += \
     qml/ControlViewToolBar.qml \
-    gallery.qrc
+    gallery.qrc \
+    qml/*.qml
+
 
 HEADERS += \
     chapar.h \

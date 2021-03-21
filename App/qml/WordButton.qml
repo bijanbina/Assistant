@@ -54,112 +54,129 @@ import QtQuick.Controls.Styles 1.1
 
 Rectangle
 {
-    property bool pressed: false
-    property real isHighlighted
+    id: control
+
+    //"file:///home/bijan/Project/Assistant/Scripts/MP3/"
+    //"file:///O:/Projects/Assistant/Scripts/MP3/"
+    //"file:///storage/emulated/0/BIC/MP3/"
+    property string mp3_path: "file:mp3/"
     property string word_left
     property string word_right
     property int word_index
+    property int word_highlighted: 0 //1 -> highlighted, 2 -> in favorite mode hilighted, otherwise not highlighted
+
     property color fontColor: root.darkFontColor
-    property string soundColor : "#bbb"
+    property color soundColor : "#bbb"
+
+    property color color_background_gradient:
+    {
+        if ( word_highlighted===1 )
+        {
+            "#033"
+        }
+        else if ( word_highlighted===2 )
+        {
+            "#4d3800"
+        }
+        else //not highlighted
+        {
+            "#333"
+        }
+    }
+
+    property real width_rect_index: control.width * 0.05
+    property real height_rect_index: control.height
+    property color color_background_rect_index: "#252525"
+
+    property color color_label_index: fontColor
+    property real pixel_size_label_index: control.height * 0.15
+    property string font_name_label_index: openSans.name
+
+    property real pixel_size_label_left: control.height * 0.2
+    property color color_label_left: fontColor
+    property string font_name_label_left: openSans.name
+
+    property real width_rect_sound_btn: control.width * 0.15
+    property real height_rect_sound_btn: control.height * 0.8
+    property color color_rect_background_sound_btn: "#777"
+
+    property string text_label_sound: "\uf028"
+    property color color_label_sound: soundColor
+    property real pixel_size_label_sound: control.height * 0.22
+    property string font_name_label_sound: fontAwesome.name
+    property int font_weight_label_sound: Font.Black
+
+    property real pixel_size_label_right: control.height * 0.2
+    property color color_label_right: fontColor
+    property string font_name_label_right: openSans.name
+
     signal mouseOnSound()
-    signal clickedMe()
+    signal clickedWord(int indx, string wordLeft, string wordRight, int highlight)
 
-    id: control
-    implicitWidth: row.implicitWidth
-    implicitHeight: row.implicitHeight
-    baselineOffset: row.y + text.y + text.baselineOffset
 
-    gradient: Gradient {
-        GradientStop {
+    gradient: Gradient
+    {
+        GradientStop
+        {
             id: grad_back
-            color: if (isHighlighted == 1)
-                   {
-                        "#033"
-                   }
-                   else if (isHighlighted == 2)
-                   {
-                        "#4d3800"
-                   }
-                   else //not highlighted
-                   {
-                       if (pressed)
-                           "#222"
-                       else
-                           "#333"
-                   }
+            color: color_background_gradient
+//            {
+//                if ( word_highlighted===1 )
+//                {
+//                    "#033"
+//                }
+//                else if ( word_highlighted===2 )
+//                {
+//                    "#4d3800"
+//                }
+//                else //not highlighted
+//                {
+//                    "#333"
+//                }
+//            }
 
             position: 0
         }
-        GradientStop {
+
+        GradientStop
+        {
             color: "#222"
             position: 1
         }
     }
-    /*Rectangle {
-        height: 1
-        width: parent.width
-        anchors.top: parent.top
-        color: "#444"
-        visible: !pressed
-    }
-    Rectangle {
-        height: 1
-        width: parent.width
-        anchors.bottom: parent.bottom
-        color: "#000"
-    }*/
 
     Rectangle
     {
         property int border_width : 4
         property color border_color : "#1f1f1f"
+
+        id: rect_index
+        width: width_rect_index
+        height: height_rect_index
+        anchors.left: parent.left
+        color: color_background_rect_index
+
         Rectangle
         {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: parent.top
             height: parent.border_width
-            //color: grad_back.color
             color: parent.border_color
         }
-        id: label_index
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.left: parent.left
-        width: control.width * 0.05
-        height: control.height
-        color: "#252525"
-        Text {
-            anchors.left: parent.left
-            anchors.leftMargin: if ( word_index<100 )
-                                {
-                                    5
-                                }
-                                else if ( word_index<1000 )
-                                {
-                                    0
-                                }
-                                else
-                                {
-                                    -3
-                                }
 
-            text: word_index
-            color: fontColor
-            font.pixelSize: control.height * 0.15
-            font.family: openSans.name
-
+        Text
+        {
+            id: label_index
             anchors.verticalCenter: parent.verticalCenter
             anchors.horizontalCenter: parent.horizontalCenter
             rotation: 90
+            text: word_index
+            color: color_label_index
+            font.pixelSize: pixel_size_label_index
+            font.family: font_name_label_index
         }
-        Rectangle
-        {
-            anchors.top: parent.top
-            anchors.right: parent.right
-            anchors.bottom: parent.bottom
-            width: parent.border_width * 0
-            color: parent.border_color
-        }
+
         Rectangle
         {
             anchors.left: parent.left
@@ -168,88 +185,82 @@ Rectangle
             height: parent.border_width
             color: parent.border_color
         }
+
     }
-    Row {
-        id: row
-        anchors.left: label_index.right
+
+    Text
+    {
+        id: label_left
+        anchors.left: rect_index.right
         anchors.leftMargin: textSingleton.implicitHeight
         anchors.verticalCenter: parent.verticalCenter
-        anchors.horizontalCenter: parent.horizontalCenter
-
-        Text {
-            id: text
-            text: word_left
-            color: fontColor
-            font.pixelSize: control.height * 0.2
-            font.family: openSans.name
-            horizontalAlignment: Text.AlignLeft
-            verticalAlignment: Text.AlignVCenter
-            anchors.verticalCenter: parent.verticalCenter
-        }
+        text: word_left
+        color: color_label_left
+        font.pixelSize: pixel_size_label_left
+        font.family: font_name_label_left
     }
-    Text {
+
+    Text
+    {
         id: label_right
-        text: word_right
-        color: fontColor
-        font.pixelSize: control.height * 0.2
-        font.family: openSans.name
         anchors.right: parent.right
         anchors.rightMargin: textSingleton.implicitHeight
-
-        verticalAlignment: Text.AlignVCenter
         anchors.verticalCenter: parent.verticalCenter
+        text: word_right
+        color: color_label_right
+        font.pixelSize: pixel_size_label_right
+        font.family: font_name_label_right
     }
 
     Rectangle
     {
-        //id: sound button
+        id: rect_sound
+        width: width_rect_sound_btn
+        height: height_rect_sound_btn
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
-        width: control.width * 0.15
-        height: control.height * 0.8
-        opacity: 0.1
-        color: "#777"
-        z:5
-    }
-
-    Rectangle
-    {
-        //id: sound button
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter
-        width: control.width * 0.15
-        height: control.height * 0.8
         color: "transparent"
-        Text {
-            opacity: 1
-            id: label_center
-            text: "\uf028"
-            color: soundColor
-            font.pixelSize: control.height * 0.22
-            font.family: fontAwesome.name
-            font.weight: Font.Black
-            anchors.horizontalCenter: parent.horizontalCenter
 
-            verticalAlignment: Text.AlignVCenter
+        Rectangle
+        {
+            id: rect_background_sound_btn
+            anchors.fill: parent
+            color: color_rect_background_sound_btn
+            opacity: 0.1
+        }
+
+        Text
+        {
+            id: label_sound
+            opacity: 1
+            text: text_label_sound
+            color: color_label_sound
+            font.pixelSize: pixel_size_label_sound
+            font.family: font_name_label_sound
+            font.weight: font_weight_label_sound
+            anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
         }
+
         MouseArea
         {
             anchors.fill: parent
+            z: 5
             onClicked: playPron()
             onEntered: playPron()
-            hoverEnabled: pc_mode
+            hoverEnabled: root.pc_mode
         }
-        z:10
-    }
 
+    }
 
     MouseArea
     {
         anchors.fill: parent
+        z: -5
+
         onClicked:
         {
-            changecl(word_index);
+            clickedWord(word_index, word_left, word_right, word_highlighted)
         }
     }
 
@@ -257,43 +268,17 @@ Rectangle
     {
         if(pc_mode)
         {
-            playMusic.source = "file:///home/bijan/Project/Assistant/Scripts/MP3/" + word_left + ".mp3"
+            playMusic.source = mp3_path + word_left + ".mp3"
+            console.log("source file music", playMusic.source)
         }
         else
         {
-            playMusic.source = "file:///storage/emulated/0/BIC/MP3/" + word_left + ".mp3"
-        }
-        if( pc_mode )
-        {
-            if ( word_index%4 === 1 )
-            {
-                list_pc.get(word_index/4).sColor1 = "#2aba89"
-            }
-            else if( word_index%4 === 2 )
-            {
-                list_pc.get(word_index/4).sColor2 = "#2aba89"
-            }
-            else if( word_index%4 === 3 )
-            {
-                list_pc.get(word_index/4).sColor3 = "#2aba89"
-            }
-            else if( word_index%4 === 0 )
-            {
-                list_pc.get(word_index/4-1).sColor4 = "#2aba89"
-            }
-        }
-        else
-        {
-            list_el.get(word_index-1).sColor = "#2aba89"
+            playMusic.source = mp3_path + word_left + ".mp3"
         }
         playMusic.play()
-
-        console.log(playMusic.error)
-
-        index_m = word_index;
+        root.index_m = word_index;
+        mouseOnSound()
     }
-
-
 
 }
 

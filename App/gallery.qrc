@@ -17,9 +17,12 @@
         <file>images/icon-back.png</file>
         <file>qml/WordButton.qml</file>
         <file>../Scripts/phrasebook</file>
-        <file>fonts/GiddyupStd.otf</file>
         <file>fonts/fasolid.ttf</file>
         <file>qml/WordList.qml</file>
         <file>qml/WordButton4.qml</file>
+        <file>qml/SearchBar.qml</file>
+        <file>qml/BottomButton.qml</file>
+        <file>qml/FavoriteButton.qml</file>
+        <file>qml/WordList4.qml</file>
     </qresource>
 </RCC>

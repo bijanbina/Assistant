@@ -55,6 +55,10 @@
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
+    //Config for Setting in qml.
+    app.setOrganizationName("Kafshdozak");
+    app.setOrganizationDomain("kafshdozak.com");
+    app.setApplicationName("Gallery");
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));

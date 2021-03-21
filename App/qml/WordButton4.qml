@@ -52,19 +52,17 @@ import QtQuick 2.2
 import QtQuick.Controls 1.1
 import QtQuick.Controls.Styles 1.1
 
-Rectangle {
-    property bool pressed: false
+Rectangle
+{
     property variant isHighlighted: [0, 0, 0, 0]
     property variant word_l: ["", "", "", ""]
     property variant word_r: ["", "", "", ""]
     property variant word_i: [0, 0, 0, 0]
     property variant word_h: [0, 0, 0, 0]
     property variant color_s: ["#bbb", "#bbb", "#bbb", "#bbb"]
-    signal mouseOnSound()
-    signal clickedMe()
 
-    implicitWidth: row.implicitWidth
-    implicitHeight: row.implicitHeight
+    signal mouseOnSound()
+    signal clickWord(int indx, string wordLeft, string wordRight, int highlight)
 
     Row
     {
@@ -79,8 +77,12 @@ Rectangle {
             word_index: word_i[0]
             word_left: word_l[0]
             word_right: word_r[0]
-            isHighlighted: word_h[0]
+            word_highlighted: word_h[0]
             soundColor: color_s[0]
+            onClickedWord:
+            {
+                clickWord(indx, wordLeft, wordRight, highlight)
+            }
         }
 
         WordButton
@@ -91,8 +93,12 @@ Rectangle {
             word_index: word_i[1]
             word_left: word_l[1]
             word_right: word_r[1]
-            isHighlighted: word_h[1]
+            word_highlighted: word_h[1]
             soundColor: color_s[1]
+            onClickedWord:
+            {
+                clickWord(indx, wordLeft, wordRight, highlight)
+            }
         }
 
         WordButton
@@ -103,8 +109,12 @@ Rectangle {
             word_index: word_i[2]
             word_left: word_l[2]
             word_right: word_r[2]
-            isHighlighted: word_h[2]
+            word_highlighted: word_h[2]
             soundColor: color_s[2]
+            onClickedWord:
+            {
+                clickWord(indx, wordLeft, wordRight, highlight)
+            }
         }
 
         WordButton
@@ -115,12 +125,14 @@ Rectangle {
             word_index: word_i[3]
             word_left: word_l[3]
             word_right: word_r[3]
-            isHighlighted: word_h[3]
+            word_highlighted: word_h[3]
             soundColor: color_s[3]
+            onClickedWord:
+            {
+                clickWord(indx, wordLeft, wordRight, highlight)
+            }
         }
     }
-
-
 
 }
 

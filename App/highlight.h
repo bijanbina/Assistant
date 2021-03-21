@@ -3,7 +3,7 @@
 #include <QFile>
 #include <QDebug>
 #include <QVector>
-
+#include <QDir>
 
 class Highlight
 {

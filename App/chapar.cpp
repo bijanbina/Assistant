@@ -1,4 +1,9 @@
 #include "chapar.h"
+#include <QTextCodec>
+
+//#define PHRASEBOOK_LOCATION "O:/Projects/Assistant/Scripts/phrasebook.txt"
+#define PHRASEBOOK_LOCATION "phrasebook.txt"
+//#define PHRASEBOOK_LOCATION /home/bijan/Project/Assistant/Resources/phrasebook"
 
 int getIntCommand(const char *command)
 {
@@ -58,17 +63,25 @@ void chapar::updateData()
     QFile inputFile;
     if( highlight_db->pc_mode )
     {
-        inputFile.setFileName("/home/bijan/Project/Assistant/Scripts/phrasebook");
+        inputFile.setFileName(PHRASEBOOK_LOCATION);
     }
     else
     {
         inputFile.setFileName("/storage/emulated/0/BIC/phrasebook");
     }
     //QFile inputFile(":/phrasebook");
+    QTextCodec::codecForName("UTF-8");
+
     int i =0;
     if (inputFile.open(QIODevice::ReadOnly))
     {
        QTextStream in(&inputFile);
+
+       if( highlight_db->pc_mode )
+       {
+           in.setCodec("UTF-8");  //ONLY for windows
+       }
+
        while (!in.atEnd())
        {
           i++;

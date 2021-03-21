@@ -1,7 +1,13 @@
 #include "highlight.h"
 
+//#define PHRASEBOOK_HIGHLIGHT_LOCATION "O:/Projects/Assistant/Scripts/phrasebook_hl"
+#define PHRASEBOOK_HIGHLIGHT_LOCATION "phrasebook_hl"
+//#define PHRASEBOOK_LOCATION "/home/bijan/Project/Assistant/Resources/phrasebook_hl"
+
 Highlight::Highlight(int is_pc)
 {
+    QString highlight_path;
+
     pc_mode = is_pc;
     highlight_words = QVector<QString> (6000);
     char buffer[6000];
@@ -11,15 +17,15 @@ Highlight::Highlight(int is_pc)
     }
     buffer[5999] = '\0';
     highlight_string = buffer;
-
     if( is_pc )
     {
-        highlight_file = new QFile("/home/bijan/Project/Assistant/Resources/phrasebook_hl");
+        highlight_path = PHRASEBOOK_HIGHLIGHT_LOCATION;
     }
     else
     {
-        highlight_file = new QFile("/storage/emulated/0/BIC/phrasebook_hl");
+        highlight_path = "/storage/emulated/0/BIC/phrasebook_hl";
     }
+    highlight_file = new QFile(highlight_path);
 
     //QFile inputFile(":/phrasebook");
     int i =0;
@@ -34,7 +40,8 @@ Highlight::Highlight(int is_pc)
     }
     else
     {
-        qDebug() << "cannot open highlight file";
+        qDebug() << "cannot open highlight file" << highlight_path;
+        qDebug() << "CWD" << QDir::currentPath();
     }
     cursor_i = 0;
     highlight_size = i;
