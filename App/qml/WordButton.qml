@@ -56,10 +56,6 @@ Rectangle
 {
     id: control
 
-    //"file:///home/bijan/Project/Assistant/Scripts/MP3/"
-    //"file:///O:/Projects/Assistant/Scripts/MP3/"
-    //"file:///storage/emulated/0/BIC/MP3/"
-    property string mp3_path: "file:mp3/"
     property string word_left
     property string word_right
     property int word_index
@@ -268,12 +264,12 @@ Rectangle
     {
         if(pc_mode)
         {
-            playMusic.source = mp3_path + word_left + ".mp3"
+            playMusic.source = root.mp3_path + word_left + ".mp3"
             console.log("source file music", playMusic.source)
         }
         else
         {
-            playMusic.source = mp3_path + word_left + ".mp3"
+            playMusic.source = root.mp3_path + word_left + ".mp3"
         }
         playMusic.play()
         root.index_m = word_index;

@@ -43,7 +43,7 @@ Rectangle
 
             onClickedWord:
             {
-                updateHighlight(indx, wordLeft, wordRight, highlight)
+                updateHighlight(indx)
             }
 
          }
@@ -575,9 +575,12 @@ Rectangle
         lsview.positionViewAtIndex(new_index - 1, ListView.Beginning)
     }
 
-    function updateHighlight(indx, wordLeft, wordRight, highlight)
+    function updateHighlight(indx)
     {
         var item = list_el.get(indx-1)
+        var wordLeft  = item.word
+        var wordRight = item.translate
+
         if(root.star_mode)
         {
             if(item.highlight===1)

@@ -32,7 +32,7 @@ Rectangle
             color_s: [sColor1, sColor2, sColor3, sColor4]
             onClickWord:
             {
-                updateHighlight(indx, wordLeft, wordRight, highlight)
+                updateHighlight(indx)
             }
         }
 
@@ -46,8 +46,9 @@ Rectangle
             {
                 fastScrollDown(7)
             }
-            else if ( event.key===Qt.Key_Space )
+            else
             {
+                root.key_detect(event.key)
             }
         }
 
@@ -463,10 +464,70 @@ Rectangle
         }
     }
 
-    function updateHighlight(indx, wordLeft, wordRight, highlight)
+
+
+    function playPron(indx)
     {
         var item = list_pc.get((indx-1)/4)
         var index_row = indx%4
+        var wordLeft
+
+        if(index_row===1)
+        {
+            wordLeft = item.word1
+            list_pc.get(index_row).sColor1 = "#2aba89"
+        }
+        else if(index_row===2)
+        {
+            wordLeft = item.word2
+            list_pc.get(index_row).sColor2 = "#2aba89"
+        }
+        else if(index_row===3)
+        {
+            wordLeft = item.word3
+            list_pc.get(index_row).sColor3 = "#2aba89"
+        }
+        else if(index_row===0)
+        {
+            wordLeft = item.word4
+            list_pc.get(index_row).sColor4 = "#2aba89"
+        }
+
+        playMusic.source = root.mp3_path + wordLeft + ".mp3"
+        playMusic.play()
+
+        root.index_m = indx;
+        mouseOnSound()
+    }
+
+    function updateHighlight(indx)
+    {
+        var item = list_pc.get((indx-1)/4)
+        var index_row = indx%4
+        var wordLeft
+        var wordRight
+
+        if(index_row===1)
+        {
+            wordLeft = item.word1
+            wordRight = item.translate1
+        }
+        else if(index_row===2)
+        {
+            wordLeft = item.word2
+            wordRight = item.translate2
+        }
+        else if(index_row===3)
+        {
+            wordLeft = item.word3
+            wordRight = item.translate3
+        }
+        else if(index_row===0)
+        {
+            wordLeft = item.word4
+            wordRight = item.translate4
+        }
+
         if(root.star_mode)
         {
             if(index_row===1)

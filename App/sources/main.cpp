@@ -51,6 +51,7 @@
 #include <QtGui/QGuiApplication>
 #include <QtQml/QQmlApplicationEngine>
 #include "chapar.h"
+#include "interpreter.h"
 
 int main(int argc, char *argv[])
 {
@@ -68,13 +69,13 @@ int main(int argc, char *argv[])
     sender->start();
     sender->updateData();
 
+    GaInterpreter *interpreter = new GaInterpreter(root);
 
     //QObject::connect(root, SIGNAL(addPhSignal(QString , QString)), dbusChnl, SLOT(writeAccepted(QString , QString)));
     //QObject::connect(root, SIGNAL(newMessage(QString)), sender, SLOT(sendMSG(QString)));
     //QObject::connect(root, SIGNAL(notifClicked()), dbusChnl, SLOT(notifClicked()));
     QObject::connect(root, SIGNAL(remove_highlight(QString)), sender, SLOT(removeHighlight(QString)));
     QObject::connect(root, SIGNAL(add_highlight(QString, QString)), sender, SLOT(addHighlight(QString, QString)));
-
 
     if (engine.rootObjects().isEmpty())
         return -1;

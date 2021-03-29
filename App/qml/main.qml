@@ -31,8 +31,14 @@ Window
     property int pc_mode : 1
     property bool focus_list: true //focus on list when another element not focused.
 
+    //"file:///home/bijan/Project/Assistant/Scripts/MP3/"
+    //"file:///O:/Projects/Assistant/Scripts/MP3/"
+    //"file:///storage/emulated/0/BIC/MP3/"
+    property string mp3_path: "file:mp3/"
+
     signal remove_highlight(string word)
     signal add_highlight(string word, string last)
+    signal key_detect(int key)
 
     id: root
     objectName: "window"
@@ -593,6 +599,48 @@ Window
         status.text = lsConY + " / " + lsCount +
                 "\nV0.12 - Settings: " + settings.ls_cony;
     }
+
+
+    function highlightWord()
+    {
+        var lsConY
+        var lsIndex
+        if(pc_mode)
+        {
+            lsConY = (main_view_pc.getLsConY())*4
+            lsIndex = lsConY + index_val
+            main_view_pc.updateHighlight(lsIndex)
+        }
+        else
+        {
+            lsConY = main_view_mobile.getLsConY()+1
+            lsIndex = lsConY + index_val
+            main_view_mobile.updateHighlight(lsIndex)
+        }
+
+        console.log(lsIndex)
+    }
+
+    function pronounceWord()
+    {
+        var lsConY
+        var lsIndex
+        if(pc_mode)
+        {
+            lsConY = (main_view_pc.getLsConY())*4
+            lsIndex = lsConY + index_val
+            main_view_pc.playPron(lsIndex)
+        }
+        else
+        {
+            lsConY = main_view_mobile.getLsConY()+1
+            lsIndex = lsConY + index_val
+            main_view_mobile.playPron(lsIndex)
+        }
+
+        console.log(lsIndex)
+    }
+
 
 }
 
